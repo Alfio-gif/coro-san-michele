@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Coro San Michele - Parrocchia San Michele Arcangelo Villasmundo</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Cinzel for sacred elegance -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            500: '#d97706',
+                            600: '#b45309',
+                            700: '#92400e',
+                        },
+                        parish: {
+                            light: '#f8fafc',
+                            card: '#ffffff',
+                            navy: '#1e1b4b',
+                            accent: '#d97706',
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-24 bg-gradient-to-br from-amber-50/40 via-slate-50 to-amber-100/30 text-slate-800">
+
+    <!-- HEADER / BRAND & TITLE -->
+    <header class="bg-gradient-to-r from-amber-700 via-amber-600 to-indigo-950 text-white border-b border-amber-300 shadow-xl sticky top-0 z-40">
+        <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
+            
+            <!-- Left: Title arranged in columns left-aligned -->
+            <div class="flex-1 text-left leading-tight">
+                <h1 class="font-cinzel text-amber-200 font-extrabold text-sm sm:text-base md:text-lg tracking-wide uppercase drop-shadow">
+                    Coro San Michele
+                </h1>
+                <p class="text-xs sm:text-sm text-slate-100 font-medium">
+                    Parrocchia San Michele Arcangelo
+                </p>
+                <p class="text-[11px] sm:text-xs text-amber-300/90 tracking-wider uppercase font-semibold">
+                    Villasmundo
+                </p>
+            </div>
+
+            <!-- Center: Choir Logo in the middle -->
+            <div class="flex-shrink-0 px-2 text-center">
+                <a id="header-logo-link" href="https://drive.google.com/" target="_blank" rel="noopener noreferrer" title="Apri logo personale su Google Drive" class="block group transform hover:scale-105 transition duration-200">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-br from-amber-200 via-amber-400 to-indigo-800 p-0.5 shadow-lg flex items-center justify-center relative overflow-hidden">
+                        <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center border border-amber-300/60 overflow-hidden relative">
+                            <img id="header-logo-img" src="" alt="Logo Coro San Michele" class="w-full h-full object-cover hidden" onerror="this.classList.add('hidden'); document.getElementById('header-logo-fallback').classList.remove('hidden');" />
+                            <div id="header-logo-fallback" class="flex items-center justify-center text-amber-300">
+                                <i class="fa-solid font-cinzel text-amber-300 text-xl sm:text-2xl">
+                                    <span>✞</span>
+                                </i>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-slate-900/50 opacity-0 group-hover:opacity-100 rounded-full flex items-center justify-center text-white text-[10px] font-bold transition backdrop-blur-[1px]">
+                            <i class="fa-brands fa-google-drive text-amber-300 text-base sm:text-lg"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Right: View Switcher (Corista / Admin Status) -->
+            <div class="flex-1 text-right flex flex-col items-end">
+                <button id="view-toggle-btn" onclick="toggleViewMode()" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 border border-amber-200/50 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm shadow-sm">
+                    <i id="view-icon" class="fa-solid fa-user"></i>
+                    <span id="view-label">Vista Corista</span>
+                </button>
+                <span id="admin-badge" class="hidden text-[10px] text-emerald-300 font-bold mt-1 flex items-center gap-1 bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-400/40">
+                    <i class="fa-solid fa-lock-open text-[9px]"></i> Admin Attivo
+                </span>
+            </div>
+
+        </div>
+
+        <!-- TAB NAVIGATION -->
+        <nav class="flex justify-around bg-white/90 backdrop-blur-md border-t border-b border-amber-200/80 text-slate-600 text-xs sm:text-sm font-semibold shadow-sm">
+            <button onclick="switchTab('repertorio')" id="tab-repertorio" class="tab-btn flex-1 py-3 text-center border-b-2 border-amber-600 text-amber-700 font-bold flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-music"></i> Repertorio
+            </button>
+            <button onclick="switchTab('scalette')" id="tab-scalette" class="tab-btn flex-1 py-3 text-center border-b-2 border-transparent hover:text-amber-700 flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-list-check"></i> Scalette
+            </button>
+            <button onclick="switchTab('coristi')" id="tab-coristi" class="tab-btn flex-1 py-3 text-center border-b-2 border-transparent hover:text-amber-700 flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-users"></i> Coristi
+            </button>
+            <button onclick="switchTab('admin')" id="tab-admin" class="tab-btn flex-1 py-3 text-center border-b-2 border-transparent hover:text-amber-700 flex items-center justify-center gap-2 transition-all">
+                <i class="fa-solid fa-user-gear"></i> Admin
+            </button>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="max-w-5xl mx-auto px-4 py-6 flex-1 w-full">
+
+        <!-- STATUS TOAST BANNER -->
+        <div id="toast" class="hidden fixed top-20 right-4 left-4 sm:left-auto sm:w-96 bg-emerald-600 text-white px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center justify-between text-sm transition-all border border-emerald-400">
+            <span id="toast-message" class="font-medium">Sincronizzazione completata!</span>
+            <button onclick="hideToast()" class="text-white/80 hover:text-white ml-2"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- ==================== TAB 1: REPERTORIO ==================== -->
+        <section id="sec-repertorio" class="tab-content space-y-4">
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white p-4 rounded-2xl border border-amber-200/80 shadow-sm">
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-amber-500 text-sm"></i>
+                    <input type="text" id="search-repertorio" oninput="filterRepertorio()" placeholder="Cerca canto..." class="w-full bg-slate-50 text-slate-800 text-sm pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+                </div>
+                <div class="flex gap-2 w-full sm:w-auto">
+                    <select id="filter-tempo" onchange="filterRepertorio()" class="flex-1 sm:flex-none bg-slate-50 text-slate-700 text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 font-medium">
+                        <option value="">Tutti i Tempi Liturgici</option>
+                        <option value="Avvento">Avvento</option>
+                        <option value="Natale">Natale</option>
+                        <option value="Quaresima">Quaresima</option>
+                        <option value="Pasqua">Pasqua</option>
+                        <option value="Tempo Ordinario">Tempo Ordinario</option>
+                        <option value="Mariano">Mariano</option>
+                        <option value="Generico">Generico</option>
+                    </select>
+                    <select id="filter-momento" onchange="filterRepertorio()" class="flex-1 sm:flex-none bg-slate-50 text-slate-700 text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 font-medium">
+                        <option value="">Tutti i Momenti</option>
+                        <option value="Ingresso">Ingresso</option>
+                        <option value="Kyrie">Kyrie</option>
+                        <option value="Gloria">Gloria</option>
+                        <option value="Salmo">Salmo</option>
+                        <option value="Alleluia">Alleluia</option>
+                        <option value="Offertorio">Offertorio</option>
+                        <option value="Santo">Santo</option>
+                        <option value="Agnello di Dio">Agnello</option>
+                        <option value="Comunione">Comunione</option>
+                        <option value="Finale">Finale</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="list-repertorio" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Dynamic Repertoire Cards rendered via JS -->
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: SCALETTE ==================== -->
+        <section id="sec-scalette" class="tab-content hidden space-y-6">
+            
+            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-amber-200/80 shadow-sm">
+                <h2 class="text-base font-bold text-amber-800 flex items-center gap-2">
+                    <i class="fa-solid fa-list-ol text-amber-600"></i> Consultazione Scalette Canti
+                </h2>
+                <div id="admin-add-scaletta-btn" class="hidden">
+                    <button onclick="openModal('modal-add-scaletta')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow transition">
+                        <i class="fa-solid fa-plus"></i> Nuova Scaletta
+                    </button>
+                </div>
+            </div>
+
+            <!-- List of Setlists -->
+            <div id="list-scalette" class="space-y-6">
+                <!-- Dynamic Setlists Cards -->
+            </div>
+
+            <!-- BOX: COMUNICAZIONI IMPORTANTI -->
+            <div class="mt-8 bg-gradient-to-br from-amber-50 via-white to-amber-100/60 border-2 border-amber-300 rounded-2xl p-5 shadow-md relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-amber-700 text-9xl pointer-events-none">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <div class="flex items-center gap-3 mb-3 border-b border-amber-200 pb-2">
+                    <div class="p-2.5 bg-amber-500/20 rounded-xl text-amber-700">
+                        <i class="fa-solid fa-bullhorn text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-cinzel text-lg font-bold text-amber-800 tracking-wide">Comunicazioni Importanti</h3>
+                        <p class="text-[11px] text-slate-500 font-medium">Aggiornato in tempo reale tramite sincronizzazione JSON</p>
+                    </div>
+                </div>
+                <div id="comunicazioni-content" class="text-sm text-slate-700 leading-relaxed space-y-2 whitespace-pre-line bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-amber-200/60 shadow-inner">
+                    Nessuna comunicazione presente al momento.
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: CORISTI ==================== -->
+        <section id="sec-coristi" class="tab-content hidden space-y-8">
+            <div class="bg-amber-500/10 border border-amber-300/60 rounded-2xl p-4 text-center shadow-sm">
+                <p class="text-xs sm:text-sm text-amber-900 font-semibold">
+                    <i class="fa-solid fa-users-line text-amber-600 mr-2"></i>
+                    Coro Parrocchiale San Michele • Elementi Attivi
+                </p>
+            </div>
+
+            <!-- Registers Container -->
+            <div class="space-y-8">
+                <!-- SOPRANI -->
+                <div class="bg-white border border-indigo-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-indigo-100 pb-3 mb-4">
+                        <h3 class="font-cinzel text-xl font-bold text-indigo-900 flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-indigo-500 inline-block"></span> Soprani
+                        </h3>
+                        <span id="count-Soprani" class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full font-bold border border-indigo-200">0 elementi</span>
+                    </div>
+                    <div id="coristi-Soprani" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Soprani List -->
+                    </div>
+                </div>
+
+                <!-- CONTRALTI -->
+                <div class="bg-white border border-rose-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-rose-100 pb-3 mb-4">
+                        <h3 class="font-cinzel text-xl font-bold text-rose-900 flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span> Contralti
+                        </h3>
+                        <span id="count-Contralti" class="text-xs bg-rose-50 text-rose-700 px-3 py-1 rounded-full font-bold border border-rose-200">0 elementi</span>
+                    </div>
+                    <div id="coristi-Contralti" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Contralti List -->
+                    </div>
+                </div>
+
+                <!-- TENORI -->
+                <div class="bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-amber-100 pb-3 mb-4">
+                        <h3 class="font-cinzel text-xl font-bold text-amber-900 flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span> Tenori
+                        </h3>
+                        <span id="count-Tenori" class="text-xs bg-amber-50 text-amber-800 px-3 py-1 rounded-full font-bold border border-amber-200">0 elementi</span>
+                    </div>
+                    <div id="coristi-Tenori" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Tenori List -->
+                    </div>
+                </div>
+
+                <!-- BASSI -->
+                <div class="bg-white border border-emerald-200/80 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between border-b border-emerald-100 pb-3 mb-4">
+                        <h3 class="font-cinzel text-xl font-bold text-emerald-900 flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span> Bassi
+                        </h3>
+                        <span id="count-Bassi" class="text-xs bg-emerald-50 text-emerald-800 px-3 py-1 rounded-full font-bold border border-emerald-200">0 elementi</span>
+                    </div>
+                    <div id="coristi-Bassi" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Bassi List -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: ADMIN ==================== -->
+        <section id="sec-admin" class="tab-content hidden space-y-6">
+            
+            <!-- Lock overlay if not authenticated -->
+            <div id="admin-locked-panel" class="bg-white border border-amber-200/80 rounded-2xl p-8 text-center max-w-md mx-auto space-y-4 shadow-lg">
+                <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto text-2xl border border-amber-300">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h3 class="font-cinzel text-xl font-bold text-amber-800">Area Riservata Admin</h3>
+                <p class="text-xs text-slate-600 font-medium">Inserisci la password per accedere alle funzionalità gestionali ed inserimento dati.</p>
+                <div class="space-y-3 pt-2">
+                    <input type="password" id="admin-password-input" placeholder="Password Admin..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-center text-sm focus:outline-none focus:border-amber-500 focus:bg-white">
+                    <button onclick="checkAdminPassword()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-sm transition-all shadow-md">
+                        Sblocca Vista Admin
+                    </button>
+                    <p id="password-error" class="text-xs text-rose-600 font-semibold hidden">Password non corretta. Riprova.</p>
+                </div>
+            </div>
+
+            <!-- Admin Unlocked Dashboard -->
+            <div id="admin-unlocked-panel" class="hidden space-y-6">
+                
+                <div class="bg-gradient-to-r from-amber-700 to-indigo-900 p-5 rounded-2xl text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-md">
+                    <div>
+                        <h2 class="font-cinzel text-xl font-bold text-amber-200">Pannello di Controllo Direzione</h2>
+                        <p class="text-xs text-slate-200">Gestisci canti, scalette, membri del coro e comunicazioni.</p>
+                    </div>
+                    <button onclick="lockAdmin()" class="bg-white/15 hover:bg-white/25 text-white text-xs px-3.5 py-2 rounded-xl border border-white/20 flex items-center gap-1.5 backdrop-blur-sm transition">
+                        <i class="fa-solid fa-lock"></i> Chiudi Sessione Admin
+                    </button>
+                </div>
+
+                <!-- Admin Action 1: Comunicazioni & WhatsApp -->
+                <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-sm space-y-4">
+                    <h3 class="text-xs font-extrabold text-amber-800 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-bullhorn text-amber-600"></i> Gestione Comunicazioni Importanti
+                    </h3>
+                    <textarea id="admin-comunicazioni-text" rows="3" placeholder="Scrivi una nuova comunicazione per il coro..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white"></textarea>
+                    
+                    <!-- WhatsApp Notification Feature -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-amber-50/60 p-3.5 rounded-xl border border-amber-200/60">
+                        <label class="flex items-center gap-2 cursor-pointer text-xs text-slate-700 font-medium">
+                            <input type="checkbox" id="whatsapp-notify-check" checked class="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-white border-slate-300">
+                            <span>Invia notifica WhatsApp ai coristi: <strong>"Eseguito Aggiornamento/Comunicazioni"</strong></span>
+                        </label>
+                        <button onclick="saveComunicazioni()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-2 transition-all shadow-md w-full sm:w-auto justify-center">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> Salva & Notifica
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Action 1.5: Logo Drive Link -->
+                <div class="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-sm space-y-3">
+                    <h3 class="text-xs font-extrabold text-amber-800 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-brands fa-google-drive text-amber-600 text-sm"></i> Collegamento Logo Personale (Google Drive)
+                    </h3>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="url" id="admin-logo-url-input" placeholder="Incolla il link del file logo da Google Drive (es. https://drive.google.com/file/d/...)" class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:border-amber-500">
+                        <button onclick="saveLogoUrl()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
+                            <i class="fa-solid fa-floppy-disk"></i> Salva Link Logo
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-slate-500">Inserisci il link di condivisione Google Drive del tuo logo. Cliccando sul logo centrale nell'intestazione verrà aperto direttamente il file su Drive.</p>
+                </div>
+
+                <!-- Admin Action 2: Buttons to Open Modals for Items -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <button onclick="openModal('modal-add-canto')" class="bg-white hover:bg-amber-50/50 border border-amber-200/80 p-4 rounded-2xl text-left flex flex-col justify-between space-y-2 transition shadow-sm">
+                        <div class="flex items-center justify-between text-amber-700">
+                            <i class="fa-solid fa-music text-2xl"></i>
+                            <i class="fa-solid fa-plus text-xs bg-amber-100 p-1.5 rounded-full"></i>
+                        </div>
+                        <span class="text-sm font-bold text-slate-800">Aggiungi Canto al Repertorio</span>
+                    </button>
+
+                    <button onclick="openModal('modal-add-scaletta')" class="bg-white hover:bg-indigo-50/50 border border-indigo-200/80 p-4 rounded-2xl text-left flex flex-col justify-between space-y-2 transition shadow-sm">
+                        <div class="flex items-center justify-between text-indigo-700">
+                            <i class="fa-solid fa-list-check text-2xl"></i>
+                            <i class="fa-solid fa-plus text-xs bg-indigo-100 p-1.5 rounded-full"></i>
+                        </div>
+                        <span class="text-sm font-bold text-slate-800">Crea Nuova Scaletta</span>
+                    </button>
+
+                    <button onclick="openModal('modal-add-corista')" class="bg-white hover:bg-emerald-50/50 border border-emerald-200/80 p-4 rounded-2xl text-left flex flex-col justify-between space-y-2 transition shadow-sm">
+                        <div class="flex items-center justify-between text-emerald-700">
+                            <i class="fa-solid fa-user-plus text-2xl"></i>
+                            <i class="fa-solid fa-plus text-xs bg-emerald-100 p-1.5 rounded-full"></i>
+                        </div>
+                        <span class="text-sm font-bold text-slate-800">Aggiungi / Modifica Corista</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER SYNC & JSON STORAGE (Accessible without Admin Password) -->
+    <footer class="mt-auto bg-white border-t border-amber-200/80 py-6 px-4 shadow-md">
+        <div class="max-w-5xl mx-auto space-y-4">
+            
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-4 shadow-sm">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
+                    <h3 class="text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-2">
+                        <i class="fa-solid fa-arrows-rotate text-amber-600"></i> Sincronizzazione Dati
+                    </h3>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="auto-sync-checkbox" onchange="toggleAutoSync(this.checked)" class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 bg-white border-slate-300">
+                        <label for="auto-sync-checkbox" class="text-xs text-slate-700 font-medium">Sincronizzazione automatica (ogni 30 min)</label>
+                    </div>
+                </div>
+
+                <!-- Input for NPoint Link -->
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="url" id="npoint-url-input" placeholder="Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
+                    <button onclick="syncFromLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizza da link
+                    </button>
+                   <!-- <button onclick="saveToNPointLink()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Salva su npoint
+                    </button> -->
+                </div>
+
+                <!-- Export & Backup Button -->
+                <div class="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600">
+                    <span>Stato Sincronizzazione: <strong id="sync-status" class="text-amber-800 font-bold">In Memoria Locale</strong></span>
+                    <button onclick="exportJSONFile()" class="bg-white hover:bg-slate-100 text-amber-800 border border-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition font-bold shadow-sm">
+                        <i class="fa-solid fa-download"></i> Esporta File JSON
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-center text-[11px] text-slate-500 font-medium">
+                Coro San Michele Arcangelo • Villasmundo • App Corale Parrocchiale
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL DIALOGS -->
+
+    <!-- Audio Player Modal -->
+    <div id="modal-audio" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white border border-amber-200/80 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('modal-audio')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 id="audio-modal-title" class="font-cinzel text-lg font-bold text-amber-800 pr-6">Riproduzione Audio</h3>
+            <p id="audio-modal-subtitle" class="text-xs font-semibold text-slate-500">Parte Vocale</p>
+            <div id="audio-container" class="pt-2">
+                <!-- Dynamic audio element -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal: Add Canto -->
+    <div id="modal-add-canto" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white border border-amber-200/80 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('modal-add-canto')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="font-cinzel text-lg font-bold text-amber-800">Nuovo Canto in Repertorio</h3>
+            <form onsubmit="handleAddCanto(event)" class="space-y-3">
+                <input type="text" id="add-canto-titolo" placeholder="Titolo Canto *" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800 focus:outline-none focus:border-amber-500">
+                <div class="grid grid-cols-2 gap-2">
+                    <select id="add-canto-tempo" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-medium">
+                        <option value="Generico">Tempo Generico</option>
+                        <option value="Avvento">Avvento</option>
+                        <option value="Natale">Natale</option>
+                        <option value="Quaresima">Quaresima</option>
+                        <option value="Pasqua">Pasqua</option>
+                        <option value="Tempo Ordinario">Tempo Ordinario</option>
+                        <option value="Mariano">Mariano</option>
+                    </select>
+                    <select id="add-canto-momento" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-medium">
+                        <option value="Ingresso">Ingresso</option>
+                        <option value="Kyrie">Kyrie</option>
+                        <option value="Gloria">Gloria</option>
+                        <option value="Salmo">Salmo</option>
+                        <option value="Alleluia">Alleluia</option>
+                        <option value="Offertorio">Offertorio</option>
+                        <option value="Santo">Santo</option>
+                        <option value="Agnello di Dio">Agnello</option>
+                        <option value="Comunione">Comunione</option>
+                        <option value="Finale">Finale</option>
+                    </select>
+                </div>
+                <input type="url" id="add-canto-audio" placeholder="Link Audio Canto (URL .mp3 o Drive)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <input type="url" id="add-canto-spartito" placeholder="Link Spartito (URL PDF/Immagine da Drive)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <input type="url" id="add-canto-testo" placeholder="Link Testo (URL Google Drive)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl text-sm shadow-md">Salva Canto</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Modal: Add Scaletta -->
+    <div id="modal-add-scaletta" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white border border-amber-200/80 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('modal-add-scaletta')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="font-cinzel text-lg font-bold text-amber-800">Nuova Scaletta</h3>
+            <form onsubmit="handleAddScaletta(event)" class="space-y-3">
+                <input type="text" id="add-scaletta-titolo" placeholder="Titolo (es: Messa Domenicale 15 Ottobre) *" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <input type="date" id="add-scaletta-data" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <select id="add-scaletta-tipo" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-medium">
+                    <option value="Messa">Messa Domenicale / Solennità</option>
+                    <option value="Prove">Prove di Canto</option>
+                    <option value="Matrimonio / Evento">Matrimonio / Celebrazione Speciale</option>
+                </select>
+                <input type="url" id="add-scaletta-spartito" placeholder="Link Spartito Generale / Libretto (URL Google Drive)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <input type="url" id="add-scaletta-testo" placeholder="Link Testo Generale (URL Google Drive)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <button type="submit" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-2.5 rounded-xl text-sm shadow-md">Crea Scaletta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Modal: Add Corista -->
+    <div id="modal-add-corista" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white border border-amber-200/80 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
+            <button onclick="closeModal('modal-add-corista')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="font-cinzel text-lg font-bold text-amber-800">Aggiungi / Modifica Corista</h3>
+            <form onsubmit="handleAddCorista(event)" class="space-y-3">
+                <input type="text" id="add-corista-nome" placeholder="Nome e Cognome *" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <select id="add-corista-registro" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 font-medium">
+                    <option value="Soprani">Soprano</option>
+                    <option value="Contralti">Contralto</option>
+                    <option value="Tenori">Tenore</option>
+                    <option value="Bassi">Basso</option>
+                </select>
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="add-corista-ruolo" placeholder="Ruolo (es: Solista, Capo Registro)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                    <input type="tel" id="add-corista-telefono" placeholder="Telefono (es: 3331234567)" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                </div>
+                <input type="url" id="add-corista-parte-link" placeholder="Link documento Spartito Parte Voce da Drive" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <input type="url" id="add-corista-audio-link" placeholder="Link file Audio Parte Voce da Drive (.mp3)" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl text-sm shadow-md">Salva Corista</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Default Seed Data for Choir (13 Members default setup)
+        const initialChoirData = {
+            logoUrl: "", // Vuoto di default per evitare di mostrare il link di esempio all'avvio su nuovi dispositivi
+            comunicazioni: "Prossime prove del coro: Giovedì ore 20:30 in Parrocchia. Preparare i canti per la Messa di Domenica.",
+            repertorio: [
+                {
+                    id: 1,
+                    titolo: "Pane del Cielo",
+                    tempoLiturgico: "Tempo Ordinario",
+                    momentoMessa: "Comunione",
+                    audioCanto: "https://raw.githubusercontent.com/rafaelreis-hotmart/Audio-Sample-files/master/sample.mp3",
+                    spartito: "https://drive.google.com/",
+                    testo: "https://drive.google.com/"
+                },
+                {
+                    id: 2,
+                    titolo: "Resta con Noi Signore la Sera",
+                    tempoLiturgico: "Pasqua",
+                    momentoMessa: "Finale",
+                    audioCanto: "https://raw.githubusercontent.com/rafaelreis-hotmart/Audio-Sample-files/master/sample.mp3",
+                    spartito: "",
+                    testo: "https://drive.google.com/"
+                },
+                {
+                    id: 3,
+                    titolo: "Anima Christi",
+                    tempoLiturgico: "Generico",
+                    momentoMessa: "Comunione",
+                    audioCanto: "",
+                    spartito: "",
+                    testo: "https://drive.google.com/"
+                }
+            ],
+            scalette: [
+                {
+                    id: 101,
+                    titolo: "Messa Domenicale San Michele Arcangelo",
+                    data: "2026-10-18",
+                    tipo: "Messa",
+                    spartito: "https://drive.google.com/",
+                    testo: "https://drive.google.com/",
+                    canti: [
+                        { momento: "Ingresso", titolo: "Pane del Cielo", spartito: "https://drive.google.com/", testo: "https://drive.google.com/" },
+                        { momento: "Comunione", titolo: "Anima Christi", spartito: "", testo: "https://drive.google.com/" }
+                    ]
+                }
+            ],
+            coristi: {
+                "Soprani": [
+                    { id: 's1', nome: "Maria Rossi", ruolo: "Capo Registro", telefono: "3331234567", parteVoce: "https://drive.google.com/", audioParteVoce: "https://raw.githubusercontent.com/rafaelreis-hotmart/Audio-Sample-files/master/sample.mp3" },
+                    { id: 's2', nome: "Anna Bianchi", ruolo: "Solista", telefono: "3389876543", parteVoce: "", audioParteVoce: "" },
+                    { id: 's3', nome: "Elena Verdi", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 's4', nome: "Giulia Russo", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" }
+                ],
+                "Contralti": [
+                    { id: 'c1', nome: "Lucia Romano", ruolo: "Capo Registro", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 'c2', nome: "Francesca Marino", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 'c3', nome: "Paola Greco", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" }
+                ],
+                "Tenori": [
+                    { id: 't1', nome: "Giuseppe Bruno", ruolo: "Capo Registro", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 't2', nome: "Antonio Gallo", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 't3', nome: "Salvatore Costa", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" }
+                ],
+                "Bassi": [
+                    { id: 'b1', nome: "Marco Fontana", ruolo: "Capo Registro", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 'b2', nome: "Vincenzo Rizzo", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" },
+                    { id: 'b3', nome: "Roberto Lombardo", ruolo: "Corista", telefono: "", parteVoce: "", audioParteVoce: "" }
+                ]
+            }
+        };
+
+        // Application State
+        let choirData = JSON.parse(localStorage.getItem('coro_san_michele_data')) || initialChoirData;
+        let isAdminLoggedIn = false;
+        let currentTab = 'repertorio';
+        let autoSyncTimer = null;
+
+        // On Page Load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedUrl = localStorage.getItem('coro_npoint_url');
+            if (savedUrl) {
+                document.getElementById('npoint-url-input').value = savedUrl;
+            }
+
+            renderAllSections();
+        });
+
+        // Save state locally
+        function saveLocalData() {
+            localStorage.setItem('coro_san_michele_data', JSON.stringify(choirData));
+        }
+
+        // Render all UI sections based on state
+        function renderAllSections() {
+            renderHeaderLogo();
+            renderRepertorio();
+            renderScalette();
+            renderCoristi();
+            renderComunicazioni();
+            saveLocalData();
+        }
+
+        // Render Header Drive Logo Link & Image Preview
+        function renderHeaderLogo() {
+            const logoLink = document.getElementById('header-logo-link');
+            const logoImg = document.getElementById('header-logo-img');
+            const logoFallback = document.getElementById('header-logo-fallback');
+            const adminLogoInput = document.getElementById('admin-logo-url-input');
+
+            const driveUrl = choirData.logoUrl || "https://drive.google.com/";
+            if (logoLink) logoLink.href = driveUrl;
+            if (adminLogoInput) adminLogoInput.value = driveUrl;
+
+            // Extract Google Drive File ID for direct image preview if possible
+            let directImgUrl = "";
+            if (driveUrl && driveUrl.includes("drive.google.com")) {
+                const match = driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || driveUrl.match(/id=([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    directImgUrl = `https://lh3.googleusercontent.com/d/${match[1]}`;
+                }
+            } else if (driveUrl && (driveUrl.startsWith("http://") || driveUrl.startsWith("https://"))) {
+                directImgUrl = driveUrl;
+            }
+
+            if (directImgUrl && logoImg) {
+                logoImg.src = directImgUrl;
+                logoImg.classList.remove('hidden');
+                if (logoFallback) logoFallback.classList.add('hidden');
+            } else {
+                if (logoImg) logoImg.classList.add('hidden');
+                if (logoFallback) logoFallback.classList.remove('hidden');
+            }
+        }
+
+        function saveLogoUrl() {
+            const inputVal = document.getElementById('admin-logo-url-input').value.trim();
+            if (!inputVal) return;
+            choirData.logoUrl = inputVal;
+            saveLocalData();
+            renderHeaderLogo();
+            showToast("Collegamento logo Google Drive salvato con successo!");
+        }
+
+        // TAB SWITCHING LOGIC
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-amber-600', 'text-amber-700', 'font-bold');
+                btn.classList.add('border-transparent', 'text-slate-600');
+            });
+
+            document.getElementById(`sec-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tabName}`);
+            activeBtn.classList.add('border-amber-600', 'text-amber-700', 'font-bold');
+            activeBtn.classList.remove('border-transparent', 'text-slate-600');
+        }
+
+        // VIEW MODE TOGGLE (Corista vs Admin)
+        function toggleViewMode() {
+            if (isAdminLoggedIn) {
+                lockAdmin();
+            } else {
+                switchTab('admin');
+            }
+        }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('admin-password-input').value;
+            if (pass === 'sanmichele' || pass === '1234') {
+                isAdminLoggedIn = true;
+                document.getElementById('admin-locked-panel').classList.add('hidden');
+                document.getElementById('admin-unlocked-panel').classList.remove('hidden');
+                document.getElementById('admin-badge').classList.remove('hidden');
+                document.getElementById('password-error').classList.add('hidden');
+                document.getElementById('view-label').innerText = 'Vista Admin';
+                document.getElementById('view-icon').className = 'fa-solid fa-user-shield text-amber-200';
+                document.getElementById('admin-add-scaletta-btn').classList.remove('hidden');
+                document.getElementById('admin-comunicazioni-text').value = choirData.comunicazioni || '';
+                renderAllSections();
+            } else {
+                document.getElementById('password-error').classList.remove('hidden');
+            }
+        }
+
+        function lockAdmin() {
+            isAdminLoggedIn = false;
+            document.getElementById('admin-locked-panel').classList.remove('hidden');
+            document.getElementById('admin-unlocked-panel').classList.add('hidden');
+            document.getElementById('admin-badge').classList.add('hidden');
+            document.getElementById('admin-password-input').value = '';
+            document.getElementById('view-label').innerText = 'Vista Corista';
+            document.getElementById('view-icon').className = 'fa-solid fa-user';
+            document.getElementById('admin-add-scaletta-btn').classList.add('hidden');
+            switchTab('repertorio');
+            renderAllSections();
+        }
+
+        // ================= REPERTORIO RENDER =================
+        function renderRepertorio() {
+            const container = document.getElementById('list-repertorio');
+            container.innerHTML = '';
+
+            const search = document.getElementById('search-repertorio').value.toLowerCase();
+            const filterTempo = document.getElementById('filter-tempo').value;
+            const filterMomento = document.getElementById('filter-momento').value;
+
+            const filtered = choirData.repertorio.filter(canto => {
+                const matchesSearch = canto.titolo.toLowerCase().includes(search);
+                const matchesTempo = filterTempo === '' || canto.tempoLiturgico === filterTempo;
+                const matchesMomento = filterMomento === '' || canto.momentoMessa === filterMomento;
+                return matchesSearch && matchesTempo && matchesMomento;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-500 text-sm font-medium">Nessun canto trovato nel repertorio.</div>`;
+                return;
+            }
+
+            filtered.forEach(canto => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-amber-200/80 hover:border-amber-400 p-4 rounded-2xl shadow-sm space-y-3 flex flex-col justify-between transition hover:shadow-md";
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="font-cinzel text-base font-bold text-amber-900">${canto.titolo}</h3>
+                            ${isAdminLoggedIn ? `<button onclick="deleteCanto(${canto.id})" class="text-rose-500 hover:text-rose-700 text-xs p-1"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 pt-1">
+                            <span class="text-[10px] bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 rounded-full font-bold"><i class="fa-solid fa-calendar-days mr-1"></i>${canto.tempoLiturgico || 'Generico'}</span>
+                            <span class="text-[10px] bg-indigo-50 text-indigo-800 border border-indigo-200 px-2.5 py-0.5 rounded-full font-bold"><i class="fa-solid fa-church mr-1"></i>${canto.momentoMessa || 'Momento Messa'}</span>
+                        </div>
+                    </div>
+
+                    <!-- Button "Audio Canto", "Spartito", "Testo" (Drive link) in Repertorio -->
+                    <div class="pt-2 flex flex-wrap gap-2 border-t border-slate-100">
+                        ${canto.audioCanto ? `
+                            <button onclick="playAudio('${escapeJs(canto.titolo)}', 'Audio Canto', '${escapeJs(canto.audioCanto)}')" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs py-2 px-3 rounded-xl font-bold flex items-center justify-center gap-1.5 shadow-sm transition">
+                                <i class="fa-solid fa-circle-play"></i> Audio Canto
+                            </button>
+                        ` : `
+                            <button disabled class="flex-1 bg-slate-100 text-slate-400 text-xs py-2 px-3 rounded-xl font-medium flex items-center justify-center gap-1.5 border border-slate-200">
+                                <i class="fa-solid fa-volume-xmark"></i> Audio n/d
+                            </button>
+                        `}
+                        
+                        ${canto.spartito ? `
+                            <a href="${canto.spartito}" target="_blank" rel="noopener noreferrer" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs py-2 px-3 rounded-xl font-bold flex items-center justify-center gap-1 shadow-sm transition">
+                                <i class="fa-solid fa-file-pdf"></i> Spartito
+                            </a>
+                        ` : ''}
+
+                        ${canto.testo ? `
+                            <a href="${canto.testo}" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs py-2 px-3 rounded-xl font-bold flex items-center justify-center gap-1 shadow-sm transition">
+                                <i class="fa-solid fa-file-lines"></i> Testo
+                            </a>
+                        ` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterRepertorio() {
+            renderRepertorio();
+        }
+
+        function deleteCanto(id) {
+            if (!confirm("Sei sicuro di voler eliminare questo canto dal repertorio?")) return;
+            choirData.repertorio = choirData.repertorio.filter(c => c.id !== id);
+            renderAllSections();
+        }
+
+        // ================= SCALETTE RENDER =================
+        function renderScalette() {
+            const container = document.getElementById('list-scalette');
+            container.innerHTML = '';
+
+            if (choirData.scalette.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-500 text-sm font-medium">Nessuna scaletta inserita al momento.</div>`;
+                return;
+            }
+
+            choirData.scalette.forEach(scaletta => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm space-y-4 hover:shadow-md transition";
+                
+                let cantiHtml = '';
+                if (scaletta.canti && scaletta.canti.length > 0) {
+                    cantiHtml = scaletta.canti.map((item, idx) => `
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200/80 gap-2">
+                            <div>
+                                <span class="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200 mr-2">${item.momento}</span>
+                                <span class="text-sm font-bold text-slate-800">${item.titolo}</span>
+                            </div>
+                            
+                            <!-- Buttons on Scalette: "Spartito" & "Testo" (Google Drive Link) -->
+                            <div class="flex items-center gap-2 pt-1 sm:pt-0">
+                                ${item.spartito ? `
+                                    <a href="${item.spartito}" target="_blank" rel="noopener noreferrer" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs px-2.5 py-1.5 rounded-lg font-bold flex items-center gap-1 shadow-sm transition">
+                                        <i class="fa-solid fa-file-pdf"></i> Spartito
+                                    </a>
+                                ` : ''}
+
+                                ${item.testo ? `
+                                    <a href="${item.testo}" target="_blank" rel="noopener noreferrer" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs px-2.5 py-1.5 rounded-lg font-bold flex items-center gap-1 shadow-sm transition">
+                                        <i class="fa-solid fa-file-lines"></i> Testo
+                                    </a>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    cantiHtml = `<p class="text-xs text-slate-500 italic">Nessun canto assegnato a questa scaletta.</p>`;
+                }
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-amber-100 pb-3 gap-2">
+                        <div>
+                            <span class="text-xs text-amber-700 font-extrabold uppercase tracking-wider">${scaletta.tipo || 'Messa'} • ${scaletta.data || ''}</span>
+                            <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3>
+                        </div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            ${scaletta.spartito ? `
+                                <a href="${scaletta.spartito}" target="_blank" rel="noopener noreferrer" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs px-2.5 py-1.5 rounded-lg font-bold flex items-center gap-1 shadow-sm transition">
+                                    <i class="fa-solid fa-file-pdf"></i> Spartito Libretto
+                                </a>
+                            ` : ''}
+                            ${scaletta.testo ? `
+                                <a href="${scaletta.testo}" target="_blank" rel="noopener noreferrer" class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-200 text-xs px-2.5 py-1.5 rounded-lg font-bold flex items-center gap-1 shadow-sm transition">
+                                    <i class="fa-solid fa-file-lines"></i> Testo
+                                </a>
+                            ` : ''}
+                            ${isAdminLoggedIn ? `
+                                <button onclick="deleteScaletta(${scaletta.id})" class="text-rose-600 hover:text-rose-800 text-xs font-semibold p-1"><i class="fa-solid fa-trash mr-1"></i> Elimina</button>
+                            ` : ''}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        ${cantiHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function deleteScaletta(id) {
+            if (!confirm("Sei sicuro di voler eliminare questa scaletta?")) return;
+            choirData.scalette = choirData.scalette.filter(s => s.id !== id);
+            renderAllSections();
+        }
+
+        // ================= CORISTI RENDER =================
+        function renderCoristi() {
+            const registri = ["Soprani", "Contralti", "Tenori", "Bassi"];
+            const voiceSingular = {
+                "Soprani": "Soprano",
+                "Contralti": "Contralto",
+                "Tenori": "Tenore",
+                "Bassi": "Basso"
+            };
+
+            registri.forEach(registro => {
+                const container = document.getElementById(`coristi-${registro}`);
+                const countBadge = document.getElementById(`count-${registro}`);
+                container.innerHTML = '';
+
+                const coristiList = choirData.coristi[registro] || [];
+                countBadge.innerText = `${coristiList.length} elementi`;
+
+                if (coristiList.length === 0) {
+                    container.innerHTML = `<div class="col-span-full text-center py-4 text-slate-400 text-xs italic">Nessun corista assegnato.</div>`;
+                    return;
+                }
+
+                coristiList.forEach(corista => {
+                    const card = document.createElement('div');
+                    card.className = "bg-slate-50/80 border border-slate-200 p-3.5 rounded-xl flex flex-col justify-between space-y-3 shadow-sm";
+                    
+                    const voiceTitle = voiceSingular[registro] || registro;
+                    const cleanPhone = corista.telefono ? corista.telefono.replace(/[^0-9+]/g, '') : '';
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-xs border border-amber-300 flex-shrink-0">
+                                    ${corista.nome.charAt(0)}
+                                </div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-1.5 flex-wrap">
+                                        <h4 class="text-sm font-bold text-slate-800 truncate">${corista.nome}</h4>
+                                        ${corista.ruolo ? `<span class="text-[9px] bg-amber-100 text-amber-900 border border-amber-300 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">${corista.ruolo}</span>` : ''}
+                                    </div>
+                                    <div class="flex items-center gap-2 text-[10px] text-slate-500 font-medium flex-wrap pt-0.5">
+                                        <span>Registro: ${registro}</span>
+                                        ${corista.telefono ? `
+                                            <span>•</span>
+                                            <a href="tel:${cleanPhone}" class="text-amber-800 hover:underline font-semibold flex items-center gap-1">
+                                                <i class="fa-solid fa-phone text-[9px] text-amber-600"></i> ${corista.telefono}
+                                            </a>
+                                            <a href="https://wa.me/${cleanPhone.replace('+', '')}" target="_blank" class="text-emerald-600 hover:text-emerald-800 ml-0.5" title="Apri Chat WhatsApp">
+                                                <i class="fa-brands fa-whatsapp text-xs"></i>
+                                            </a>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            ${isAdminLoggedIn ? `<button onclick="deleteCorista('${registro}', '${corista.id}')" class="text-rose-500 hover:text-rose-700 text-xs ml-1 flex-shrink-0"><i class="fa-solid fa-user-minus"></i></button>` : ''}
+                        </div>
+
+                        <!-- Buttons in Coristi Tab -->
+                        <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-200">
+                            ${corista.parteVoce ? `
+                                <a href="${corista.parteVoce}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs py-2 px-2.5 rounded-lg font-bold flex items-center justify-center gap-1.5 shadow-sm text-center transition">
+                                    <i class="fa-solid fa-file-pdf"></i> Parte ${voiceTitle}
+                                </a>
+                            ` : `
+                                <button disabled class="flex-1 bg-slate-100 text-slate-400 text-xs py-2 px-2.5 rounded-lg font-medium flex items-center justify-center gap-1 border border-slate-200 text-center">
+                                    <i class="fa-solid fa-file"></i> Parte ${voiceTitle} n/d
+                                </button>
+                            `}
+
+                            ${corista.audioParteVoce ? `
+                                <button onclick="playAudio('${escapeJs(corista.nome)}', 'Parte ${escapeJs(voiceTitle)}', '${escapeJs(corista.audioParteVoce)}')" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs py-2 px-2.5 rounded-lg font-bold flex items-center justify-center gap-1.5 shadow-sm text-center transition">
+                                    <i class="fa-solid fa-circle-play"></i> Audio Parte ${voiceTitle}
+                                </button>
+                            ` : `
+                                <button disabled class="flex-1 bg-slate-100 text-slate-400 text-xs py-2 px-2.5 rounded-lg font-medium flex items-center justify-center gap-1 border border-slate-200 text-center">
+                                    <i class="fa-solid fa-volume-xmark"></i> Audio ${voiceTitle} n/d
+                                </button>
+                            `}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        function deleteCorista(registro, id) {
+            if (!confirm("Rimuovere questo corista dal registro?")) return;
+            choirData.coristi[registro] = choirData.coristi[registro].filter(c => c.id !== id);
+            renderAllSections();
+        }
+
+        // ================= COMUNICAZIONI RENDER =================
+        function renderComunicazioni() {
+            const container = document.getElementById('comunicazioni-content');
+            if (choirData.comunicazioni && choirData.comunicazioni.trim() !== '') {
+                container.innerText = choirData.comunicazioni;
+            } else {
+                container.innerText = "Nessuna comunicazione presente al momento.";
+            }
+        }
+
+        // ================= ADMIN ACTIONS & FORMS =================
+        function saveComunicazioni() {
+            const text = document.getElementById('admin-comunicazioni-text').value;
+            choirData.comunicazioni = text;
+            saveLocalData();
+            renderComunicazioni();
+
+            showToast("Comunicazioni aggiornate con successo!");
+
+            const shouldSendWa = document.getElementById('whatsapp-notify-check').checked;
+            if (shouldSendWa) {
+                const message = `*CORO SAN MICHELE - VILLASMUNDO*\n\n🔔 *Eseguito Aggiornamento / Comunicazioni:*\n${text}`;
+                const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(waUrl, '_blank');
+            }
+        }
+
+        function handleAddCanto(e) {
+            e.preventDefault();
+            const newCanto = {
+                id: Date.now(),
+                titolo: document.getElementById('add-canto-titolo').value,
+                tempoLiturgico: document.getElementById('add-canto-tempo').value,
+                momentoMessa: document.getElementById('add-canto-momento').value,
+                audioCanto: document.getElementById('add-canto-audio').value,
+                spartito: document.getElementById('add-canto-spartito').value,
+                testo: document.getElementById('add-canto-testo').value
+            };
+            choirData.repertorio.unshift(newCanto);
+            closeModal('modal-add-canto');
+            e.target.reset();
+            renderAllSections();
+            showToast("Canto aggiunto al repertorio!");
+        }
+
+        function handleAddScaletta(e) {
+            e.preventDefault();
+            const newScaletta = {
+                id: Date.now(),
+                titolo: document.getElementById('add-scaletta-titolo').value,
+                data: document.getElementById('add-scaletta-data').value,
+                tipo: document.getElementById('add-scaletta-tipo').value,
+                spartito: document.getElementById('add-scaletta-spartito').value || '',
+                testo: document.getElementById('add-scaletta-testo').value || '',
+                canti: []
+            };
+            choirData.scalette.unshift(newScaletta);
+            closeModal('modal-add-scaletta');
+            e.target.reset();
+            renderAllSections();
+            showToast("Nuova scaletta creata!");
+        }
+
+        function handleAddCorista(e) {
+            e.preventDefault();
+            const registro = document.getElementById('add-corista-registro').value;
+            const newCorista = {
+                id: 'c_' + Date.now(),
+                nome: document.getElementById('add-corista-nome').value,
+                ruolo: document.getElementById('add-corista-ruolo').value || 'Corista',
+                telefono: document.getElementById('add-corista-telefono').value || '',
+                parteVoce: document.getElementById('add-corista-parte-link').value,
+                audioParteVoce: document.getElementById('add-corista-audio-link').value
+            };
+            if (!choirData.coristi[registro]) choirData.coristi[registro] = [];
+            choirData.coristi[registro].push(newCorista);
+            closeModal('modal-add-corista');
+            e.target.reset();
+            renderAllSections();
+            showToast("Corista aggiunto correttamente!");
+        }
+
+        // ================= JSON & NPOINT SYNC =================
+        async function syncFromLink() {
+            const urlInput = document.getElementById('npoint-url-input').value.trim();
+            if (!urlInput) {
+                alert("Inserisci un link npoint valido (es: https://api.npoint.io/xxxxxx)");
+                return;
+            }
+
+            try {
+                document.getElementById('sync-status').innerText = "Sincronizzazione in corso...";
+                const res = await fetch(urlInput);
+                if (!res.ok) throw new Error("Risposta server non valida");
+                const data = await res.json();
+
+                if (data) {
+                    choirData = data;
+                    localStorage.setItem('coro_npoint_url', urlInput);
+                    renderAllSections();
+                    document.getElementById('sync-status').innerText = "Sincronizzato da Remote npoint";
+                    showToast("Dati sincronizzati con successo dal link!");
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('sync-status').innerText = "Errore durante il recupero del JSON";
+                alert("Impossibile sincronizzare dal link fornito. Verifica l'URL o la connessione.");
+            }
+        }
+
+        async function saveToNPointLink() {
+            const urlInput = document.getElementById('npoint-url-input').value.trim();
+            if (!urlInput) {
+                alert("Inserisci un link npoint valido per la scrittura.");
+                return;
+            }
+
+            try {
+                document.getElementById('sync-status').innerText = "Invio dati a npoint...";
+                const res = await fetch(urlInput, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(choirData)
+                });
+
+                if (!res.ok) throw new Error("Errore durante il salvataggio remoto");
+                localStorage.setItem('coro_npoint_url', urlInput);
+                document.getElementById('sync-status').innerText = "Salvato su Remote npoint";
+                showToast("Dati aggiornati su npoint.io!");
+            } catch (err) {
+                console.error(err);
+                alert("Errore nell'aggiornamento remoto. Puoi sempre usare 'Esporta File JSON' per aggiornare il file.");
+            }
+        }
+
+        function toggleAutoSync(enabled) {
+            if (autoSyncTimer) clearInterval(autoSyncTimer);
+            if (enabled) {
+                autoSyncTimer = setInterval(() => {
+                    const url = document.getElementById('npoint-url-input').value.trim();
+                    if (url) syncFromLink();
+                }, 30 * 60 * 1000); // 5 minutes
+                showToast("Sincronizzazione automatica attiva (ogni 30 min)");
+            }
+        }
+
+        function exportJSONFile() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(choirData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `coro_san_michele_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        // ================= MODAL & MEDIA HELPERS =================
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            if (id === 'modal-audio') {
+                const player = document.getElementById('active-audio-player');
+                if (player) {
+                    player.pause();
+                    player.currentTime = 0;
+                }
+                document.getElementById('audio-container').innerHTML = '';
+            }
+        }
+
+        // Helper per estrarre ID file Google Drive
+        function getGoogleDriveId(url) {
+            if (!url) return null;
+            const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+            return match ? match[1] : null;
+        }
+
+        // Helper per la formattazione sicura dei caratteri nei gestori JS
+        function escapeJs(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/\\/g, '\\\\')
+                .replace(/'/g, "\\'")
+                .replace(/"/g, '&quot;')
+                .replace(/\n/g, '\\n')
+                .replace(/\r/g, '\\r');
+        }
+
+        // Formatta qualsiasi URL (Drive, Dropbox, ecc.) in un link audio streaming diretto
+        function formatAudioUrl(url) {
+            if (!url) return '';
+            const driveId = getGoogleDriveId(url);
+            if (driveId) {
+                return `https://lh3.googleusercontent.com/d/${driveId}`;
+            }
+            if (url.includes('dropbox.com')) {
+                return url.replace('dl=0', 'raw=1').replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+            }
+            return url;
+        }
+
+        // Funzione riproduzione audio ottimizzata ed unificata con avvio automatico
+        function playAudio(title, subtitle, rawUrl) {
+            document.getElementById('audio-modal-title').innerText = title;
+            document.getElementById('audio-modal-subtitle').innerText = subtitle;
+            const container = document.getElementById('audio-container');
+            
+            const formattedUrl = formatAudioUrl(rawUrl);
+            const driveId = getGoogleDriveId(rawUrl);
+
+            container.innerHTML = `
+                <div class="space-y-3 text-center">
+                    <audio id="active-audio-player" src="${formattedUrl}" controls preload="auto" class="w-full rounded-xl bg-slate-100 p-2 border border-slate-200">
+                        Il tuo browser non supporta la riproduzione diretta dell'audio.
+                    </audio>
+
+                    <div id="audio-error-fallback" class="${driveId ? '' : 'hidden'} p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
+                        <p class="font-semibold text-amber-800 flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-circle-info text-amber-600"></i> Player integrato Google Drive:
+                        </p>
+                        ${driveId ? `
+                            <iframe src="https://drive.google.com/file/d/${driveId}/preview" class="w-full h-20 rounded-lg border border-slate-300" allow="autoplay"></iframe>
+                        ` : '<p class="text-[11px] text-slate-600">Se l\'audio non parte automaticamente, premi Play sul lettore o usa il link sottostante.</p>'}
+                    </div>
+
+                    <div class="pt-1 text-center">
+                        <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-amber-700 font-bold underline hover:text-amber-800 inline-flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Apri / Scarica file originale
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            openModal('modal-audio');
+
+            // Sequenza programmata con load() e play() per massima compatibilità cross-browser
+            setTimeout(() => {
+                const player = document.getElementById('active-audio-player');
+                if (player) {
+                    try {
+                        player.load();
+                    } catch(e) {
+                        console.warn("Errore durante il caricamento del player audio:", e);
+                    }
+
+                    player.onerror = function() {
+                        const fallback = document.getElementById('audio-error-fallback');
+                        if (fallback) fallback.classList.remove('hidden');
+                    };
+
+                    const playPromise = player.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.warn("Autoplay audio bloccato dal browser o dai permessi del link:", error);
+                            const fallback = document.getElementById('audio-error-fallback');
+                            if (fallback && driveId) {
+                                fallback.classList.remove('hidden');
+                            }
+                        });
+                    }
+                }
+            }, 50);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        function hideToast() {
+            document.getElementById('toast').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
