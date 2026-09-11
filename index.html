@@ -371,15 +371,15 @@
                     <h3 class="text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-2">
                         <i class="fa-solid fa-arrows-rotate text-amber-600"></i> Sincronizzazione Dati
                     </h3>
-                    <div class="flex items-center gap-2">
+                    <!-- <div class="flex items-center gap-2">
                         <input type="checkbox" id="auto-sync-checkbox" onchange="toggleAutoSync(this.checked)" class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 bg-white border-slate-300">
                         <label for="auto-sync-checkbox" class="text-xs text-slate-700 font-medium">Sincronizzazione automatica (ogni 30 min)</label>
-                    </div>
+                    </div> -->
                 </div>
 
-                <!-- Input for NPoint Link -->
+                <!-- Input for NPoint Link Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)-->
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <input type="url" id="npoint-url-input" placeholder="Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
+                    <input type="url" id="npoint-url-input" placeholder="https://api.npoint.io/38271ae47daf46a2db4f" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
                     <button onclick="syncFromLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
                         <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizza da link
                     </button>
