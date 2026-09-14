@@ -839,12 +839,12 @@
                 card.innerHTML = `
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-amber-100 pb-3 gap-2">
                         <div>
+                            <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3> 
                             <div class="flex flex-wrap gap-1.5 items-center mb-1">
                                 <span class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full uppercase tracking-wider">${scaletta.tipo || 'Messa'}</span>
                                 <span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-900 border border-indigo-200 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-calendar-days mr-1"></i>${scaletta.tempoLiturgico || 'Generico'}</span>
                                 <span class="text-xs text-slate-500 font-semibold ml-1">${scaletta.data || ''}</span>
                             </div>
-                            <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap">
                             ${scaletta.spartito ? `
