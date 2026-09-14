@@ -395,9 +395,6 @@
                     <button onclick="syncFromLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
                         <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizza da link
                     </button>
-                    <!-- <button onclick="saveToNPointLink()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Salva su npoint
-                    </button> -->
                 </div>
 
                 <!-- Export & Backup Button -->
@@ -1084,31 +1081,6 @@
                 }
             }
         }
-
-        //async function saveToNPointLink() {
-           // const urlInput = document.getElementById('npoint-url-input').value.trim();
-            //if (!urlInput) {
-                //alert("Inserisci un link npoint valido per la scrittura.");
-                //return;
-            //}
-
-            //try {
-                //document.getElementById('sync-status').innerText = "Invio dati a npoint...";
-                //const res = await fetch(urlInput, {
-                    //method: 'POST',
-                    //headers: { 'Content-Type': 'application/json' },
-                    //body: JSON.stringify(choirData)
-                //});
-
-                //if (!res.ok) throw new Error("Errore durante il salvataggio remoto");
-                //localStorage.setItem('coro_npoint_url', urlInput);
-                //document.getElementById('sync-status').innerText = "Salvato su Remote npoint (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
-                //showToast("Dati aggiornati su npoint.io!");
-            //} catch (err) {
-                //console.error(err);
-                //alert("Errore nell'aggiornamento remoto. Puoi sempre usare 'Esporta File JSON' per aggiornare il file.");
-            //}
-        //}
 
         function exportJSONFile() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(choirData, null, 2));
