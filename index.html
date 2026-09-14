@@ -164,14 +164,27 @@
         <!-- ==================== TAB 2: SCALETTE ==================== -->
         <section id="sec-scalette" class="tab-content hidden space-y-6">
             
-            <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-amber-200/80 shadow-sm">
-                <h2 class="text-base font-bold text-amber-800 flex items-center gap-2">
-                    <i class="fa-solid fa-list-ol text-amber-600"></i> Consultazione Scalette Canti
-                </h2>
-                <div id="admin-add-scaletta-btn" class="hidden">
-                    <button onclick="openModal('modal-add-scaletta')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow transition">
-                        <i class="fa-solid fa-plus"></i> Nuova Scaletta
-                    </button>
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white p-4 rounded-2xl border border-amber-200/80 shadow-sm">
+                <div class="relative w-full sm:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-amber-500 text-sm"></i>
+                    <input type="text" id="search-scalette" oninput="renderScalette()" placeholder="Cerca scaletta per titolo..." class="w-full bg-slate-50 text-slate-800 text-sm pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 focus:bg-white transition">
+                </div>
+                <div class="flex gap-2 w-full sm:w-auto items-center">
+                    <select id="filter-scalette-tempo" onchange="renderScalette()" class="flex-1 sm:flex-none bg-slate-50 text-slate-700 text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-amber-500 font-medium">
+                        <option value="">Tutti i Tempi Liturgici</option>
+                        <option value="Avvento">Avvento</option>
+                        <option value="Natale">Natale</option>
+                        <option value="Quaresima">Quaresima</option>
+                        <option value="Pasqua">Pasqua</option>
+                        <option value="Tempo Ordinario">Tempo Ordinario</option>
+                        <option value="Mariano">Mariano</option>
+                        <option value="Generico">Generico</option>
+                    </select>
+                    <div id="admin-add-scaletta-btn" class="hidden">
+                        <button onclick="openModal('modal-add-scaletta')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded-xl font-bold flex items-center gap-1.5 shadow transition whitespace-nowrap">
+                            <i class="fa-solid fa-plus"></i> Nuova Scaletta
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -362,7 +375,7 @@
 
     </main>
 
-    <!-- FOOTER SYNC & JSON STORAGE (Accessible without Admin Password) -->
+    <!-- FOOTER SYNC & JSON STORAGE -->
     <footer class="mt-auto bg-white border-t border-amber-200/80 py-6 px-4 shadow-md">
         <div class="max-w-5xl mx-auto space-y-4">
             
@@ -371,19 +384,18 @@
                     <h3 class="text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-2">
                         <i class="fa-solid fa-arrows-rotate text-amber-600"></i> Sincronizzazione Dati
                     </h3>
-                    <!-- <div class="flex items-center gap-2">
-                        <input type="checkbox" id="auto-sync-checkbox" onchange="toggleAutoSync(this.checked)" class="w-4 h-4 rounded text-amber-600 focus:ring-amber-500 bg-white border-slate-300">
-                        <label for="auto-sync-checkbox" class="text-xs text-slate-700 font-medium">Sincronizzazione automatica (ogni 30 min)</label>
-                    </div> -->
+                    <span class="text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-bolt text-xs"></i> Sincronizzazione automatica all'avvio
+                    </span>
                 </div>
 
-                <!-- Input for NPoint Link Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)-->
+                <!-- Input for NPoint Link -->
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <input type="url" id="npoint-url-input" placeholder="https://api.npoint.io/38271ae47daf46a2db4f" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
+                    <input type="url" id="npoint-url-input" placeholder="Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
                     <button onclick="syncFromLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
                         <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizza da link
                     </button>
-                   <!-- <button onclick="saveToNPointLink()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
+                    <!-- <button onclick="saveToNPointLink()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Salva su npoint
                     </button> -->
                 </div>
@@ -459,10 +471,21 @@
     <div id="modal-add-scaletta" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white border border-amber-200/80 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl relative">
             <button onclick="closeModal('modal-add-scaletta')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="font-cinzel text-lg font-bold text-amber-800">Nuova Scaletta</h3>
+            <h3 class="font-cinzel text-lg font-bold text-amber-800">Crea Scaletta</h3>
             <form onsubmit="handleAddScaletta(event)" class="space-y-3">
                 <input type="text" id="add-scaletta-titolo" placeholder="Titolo (es: Messa Domenicale 15 Ottobre) *" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
-                <input type="date" id="add-scaletta-data" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="date" id="add-scaletta-data" required class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800">
+                    <select id="add-scaletta-tempo" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-medium">
+                        <option value="Tempo Ordinario">Tempo Ordinario</option>
+                        <option value="Avvento">Avvento</option>
+                        <option value="Natale">Natale</option>
+                        <option value="Quaresima">Quaresima</option>
+                        <option value="Pasqua">Pasqua</option>
+                        <option value="Mariano">Mariano</option>
+                        <option value="Generico">Generico</option>
+                    </select>
+                </div>
                 <select id="add-scaletta-tipo" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-700 font-medium">
                     <option value="Messa">Messa Domenicale / Solennità</option>
                     <option value="Prove">Prove di Canto</option>
@@ -500,9 +523,8 @@
     </div>
 
     <script>
-        // Default Seed Data for Choir (13 Members default setup)
         const initialChoirData = {
-            logoUrl: "", // Vuoto di default per evitare di mostrare il link di esempio all'avvio su nuovi dispositivi
+            logoUrl: "",
             comunicazioni: "Prossime prove del coro: Giovedì ore 20:30 in Parrocchia. Preparare i canti per la Messa di Domenica.",
             repertorio: [
                 {
@@ -538,6 +560,7 @@
                     id: 101,
                     titolo: "Messa Domenicale San Michele Arcangelo",
                     data: "2026-10-18",
+                    tempoLiturgico: "Tempo Ordinario",
                     tipo: "Messa",
                     spartito: "https://drive.google.com/",
                     testo: "https://drive.google.com/",
@@ -576,24 +599,22 @@
         let choirData = JSON.parse(localStorage.getItem('coro_san_michele_data')) || initialChoirData;
         let isAdminLoggedIn = false;
         let currentTab = 'repertorio';
-        let autoSyncTimer = null;
 
-        // On Page Load
-        window.addEventListener('DOMContentLoaded', () => {
+        window.addEventListener('DOMContentLoaded', async () => {
             const savedUrl = localStorage.getItem('coro_npoint_url');
             if (savedUrl) {
                 document.getElementById('npoint-url-input').value = savedUrl;
+                // Automatic sync from remote link on app start
+                await syncFromLink(true);
+            } else {
+                renderAllSections();
             }
-
-            renderAllSections();
         });
 
-        // Save state locally
         function saveLocalData() {
             localStorage.setItem('coro_san_michele_data', JSON.stringify(choirData));
         }
 
-        // Render all UI sections based on state
         function renderAllSections() {
             renderHeaderLogo();
             renderRepertorio();
@@ -603,7 +624,6 @@
             saveLocalData();
         }
 
-        // Render Header Drive Logo Link & Image Preview
         function renderHeaderLogo() {
             const logoLink = document.getElementById('header-logo-link');
             const logoImg = document.getElementById('header-logo-img');
@@ -614,7 +634,6 @@
             if (logoLink) logoLink.href = driveUrl;
             if (adminLogoInput) adminLogoInput.value = driveUrl;
 
-            // Extract Google Drive File ID for direct image preview if possible
             let directImgUrl = "";
             if (driveUrl && driveUrl.includes("drive.google.com")) {
                 const match = driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || driveUrl.match(/id=([a-zA-Z0-9_-]+)/);
@@ -644,7 +663,6 @@
             showToast("Collegamento logo Google Drive salvato con successo!");
         }
 
-        // TAB SWITCHING LOGIC
         function switchTab(tabName) {
             currentTab = tabName;
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
@@ -659,7 +677,6 @@
             activeBtn.classList.remove('border-transparent', 'text-slate-600');
         }
 
-        // VIEW MODE TOGGLE (Corista vs Admin)
         function toggleViewMode() {
             if (isAdminLoggedIn) {
                 lockAdmin();
@@ -699,14 +716,13 @@
             renderAllSections();
         }
 
-        // ================= REPERTORIO RENDER =================
         function renderRepertorio() {
             const container = document.getElementById('list-repertorio');
             container.innerHTML = '';
 
-            const search = document.getElementById('search-repertorio').value.toLowerCase();
-            const filterTempo = document.getElementById('filter-tempo').value;
-            const filterMomento = document.getElementById('filter-momento').value;
+            const search = (document.getElementById('search-repertorio')?.value || '').toLowerCase().trim();
+            const filterTempo = document.getElementById('filter-tempo')?.value || '';
+            const filterMomento = document.getElementById('filter-momento')?.value || '';
 
             const filtered = choirData.repertorio.filter(canto => {
                 const matchesSearch = canto.titolo.toLowerCase().includes(search);
@@ -735,7 +751,6 @@
                         </div>
                     </div>
 
-                    <!-- Button "Audio Canto", "Spartito", "Testo" (Drive link) in Repertorio -->
                     <div class="pt-2 flex flex-wrap gap-2 border-t border-slate-100">
                         ${canto.audioCanto ? `
                             <button onclick="playAudio('${escapeJs(canto.titolo)}', 'Audio Canto', '${escapeJs(canto.audioCanto)}')" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white text-xs py-2 px-3 rounded-xl font-bold flex items-center justify-center gap-1.5 shadow-sm transition">
@@ -774,30 +789,37 @@
             renderAllSections();
         }
 
-        // ================= SCALETTE RENDER =================
         function renderScalette() {
             const container = document.getElementById('list-scalette');
             container.innerHTML = '';
 
-            if (choirData.scalette.length === 0) {
-                container.innerHTML = `<div class="text-center py-6 text-slate-500 text-sm font-medium">Nessuna scaletta inserita al momento.</div>`;
+            const search = (document.getElementById('search-scalette')?.value || '').toLowerCase().trim();
+            const filterTempo = document.getElementById('filter-scalette-tempo')?.value || '';
+
+            const filtered = choirData.scalette.filter(scaletta => {
+                const matchesSearch = scaletta.titolo.toLowerCase().includes(search);
+                const matchesTempo = filterTempo === '' || (scaletta.tempoLiturgico || 'Generico') === filterTempo;
+                return matchesSearch && matchesTempo;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-500 text-sm font-medium bg-white p-6 rounded-2xl border border-amber-200/80">Nessuna scaletta trovata.</div>`;
                 return;
             }
 
-            choirData.scalette.forEach(scaletta => {
+            filtered.forEach(scaletta => {
                 const card = document.createElement('div');
                 card.className = "bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm space-y-4 hover:shadow-md transition";
                 
                 let cantiHtml = '';
                 if (scaletta.canti && scaletta.canti.length > 0) {
-                    cantiHtml = scaletta.canti.map((item, idx) => `
+                    cantiHtml = scaletta.canti.map((item) => `
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200/80 gap-2">
                             <div>
                                 <span class="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200 mr-2">${item.momento}</span>
                                 <span class="text-sm font-bold text-slate-800">${item.titolo}</span>
                             </div>
                             
-                            <!-- Buttons on Scalette: "Spartito" & "Testo" (Google Drive Link) -->
                             <div class="flex items-center gap-2 pt-1 sm:pt-0">
                                 ${item.spartito ? `
                                     <a href="${item.spartito}" target="_blank" rel="noopener noreferrer" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs px-2.5 py-1.5 rounded-lg font-bold flex items-center gap-1 shadow-sm transition">
@@ -820,7 +842,11 @@
                 card.innerHTML = `
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-amber-100 pb-3 gap-2">
                         <div>
-                            <span class="text-xs text-amber-700 font-extrabold uppercase tracking-wider">${scaletta.tipo || 'Messa'} • ${scaletta.data || ''}</span>
+                            <div class="flex flex-wrap gap-1.5 items-center mb-1">
+                                <span class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full uppercase tracking-wider">${scaletta.tipo || 'Messa'}</span>
+                                <span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-900 border border-indigo-200 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-calendar-days mr-1"></i>${scaletta.tempoLiturgico || 'Generico'}</span>
+                                <span class="text-xs text-slate-500 font-semibold ml-1">${scaletta.data || ''}</span>
+                            </div>
                             <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap">
@@ -854,7 +880,6 @@
             renderAllSections();
         }
 
-        // ================= CORISTI RENDER =================
         function renderCoristi() {
             const registri = ["Soprani", "Contralti", "Tenori", "Bassi"];
             const voiceSingular = {
@@ -912,7 +937,6 @@
                             ${isAdminLoggedIn ? `<button onclick="deleteCorista('${registro}', '${corista.id}')" class="text-rose-500 hover:text-rose-700 text-xs ml-1 flex-shrink-0"><i class="fa-solid fa-user-minus"></i></button>` : ''}
                         </div>
 
-                        <!-- Buttons in Coristi Tab -->
                         <div class="flex flex-col sm:flex-row gap-2 pt-2 border-t border-slate-200">
                             ${corista.parteVoce ? `
                                 <a href="${corista.parteVoce}" target="_blank" rel="noopener noreferrer" class="flex-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 text-xs py-2 px-2.5 rounded-lg font-bold flex items-center justify-center gap-1.5 shadow-sm text-center transition">
@@ -946,7 +970,6 @@
             renderAllSections();
         }
 
-        // ================= COMUNICAZIONI RENDER =================
         function renderComunicazioni() {
             const container = document.getElementById('comunicazioni-content');
             if (choirData.comunicazioni && choirData.comunicazioni.trim() !== '') {
@@ -956,7 +979,6 @@
             }
         }
 
-        // ================= ADMIN ACTIONS & FORMS =================
         function saveComunicazioni() {
             const text = document.getElementById('admin-comunicazioni-text').value;
             choirData.comunicazioni = text;
@@ -997,6 +1019,7 @@
                 id: Date.now(),
                 titolo: document.getElementById('add-scaletta-titolo').value,
                 data: document.getElementById('add-scaletta-data').value,
+                tempoLiturgico: document.getElementById('add-scaletta-tempo').value || 'Generico',
                 tipo: document.getElementById('add-scaletta-tipo').value,
                 spartito: document.getElementById('add-scaletta-spartito').value || '',
                 testo: document.getElementById('add-scaletta-testo').value || '',
@@ -1028,16 +1051,17 @@
             showToast("Corista aggiunto correttamente!");
         }
 
-        // ================= JSON & NPOINT SYNC =================
-        async function syncFromLink() {
+        async function syncFromLink(isAutoSyncOnLoad = false) {
             const urlInput = document.getElementById('npoint-url-input').value.trim();
             if (!urlInput) {
-                alert("Inserisci un link npoint valido (es: https://api.npoint.io/xxxxxx)");
+                if (!isAutoSyncOnLoad) alert("Inserisci un link npoint valido (es: https://api.npoint.io/xxxxxx)");
                 return;
             }
 
             try {
-                document.getElementById('sync-status').innerText = "Sincronizzazione in corso...";
+                const statusEl = document.getElementById('sync-status');
+                if (statusEl) statusEl.innerText = "Sincronizzazione in corso...";
+
                 const res = await fetch(urlInput);
                 if (!res.ok) throw new Error("Risposta server non valida");
                 const data = await res.json();
@@ -1046,51 +1070,45 @@
                     choirData = data;
                     localStorage.setItem('coro_npoint_url', urlInput);
                     renderAllSections();
-                    document.getElementById('sync-status').innerText = "Sincronizzato da Remote npoint";
-                    showToast("Dati sincronizzati con successo dal link!");
+                    if (statusEl) statusEl.innerText = "Sincronizzato da npoint (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
+                    showToast(isAutoSyncOnLoad ? "Dati sincronizzati automaticamente all'avvio!" : "Dati sincronizzati con successo dal link!");
                 }
             } catch (err) {
-                console.error(err);
-                document.getElementById('sync-status').innerText = "Errore durante il recupero del JSON";
-                alert("Impossibile sincronizzare dal link fornito. Verifica l'URL o la connessione.");
+                console.error("Errore sincronizzazione npoint:", err);
+                const statusEl = document.getElementById('sync-status');
+                if (statusEl) statusEl.innerText = "Errore durante il recupero del JSON";
+                if (!isAutoSyncOnLoad) {
+                    alert("Impossibile sincronizzare dal link fornito. Verifica l'URL o la connessione.");
+                } else {
+                    renderAllSections();
+                }
             }
         }
 
-        async function saveToNPointLink() {
-            const urlInput = document.getElementById('npoint-url-input').value.trim();
-            if (!urlInput) {
-                alert("Inserisci un link npoint valido per la scrittura.");
-                return;
-            }
+        //async function saveToNPointLink() {
+           // const urlInput = document.getElementById('npoint-url-input').value.trim();
+            //if (!urlInput) {
+                //alert("Inserisci un link npoint valido per la scrittura.");
+                //return;
+            //}
 
-            try {
-                document.getElementById('sync-status').innerText = "Invio dati a npoint...";
-                const res = await fetch(urlInput, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(choirData)
-                });
+            //try {
+                //document.getElementById('sync-status').innerText = "Invio dati a npoint...";
+                //const res = await fetch(urlInput, {
+                    //method: 'POST',
+                    //headers: { 'Content-Type': 'application/json' },
+                    //body: JSON.stringify(choirData)
+                //});
 
-                if (!res.ok) throw new Error("Errore durante il salvataggio remoto");
-                localStorage.setItem('coro_npoint_url', urlInput);
-                document.getElementById('sync-status').innerText = "Salvato su Remote npoint";
-                showToast("Dati aggiornati su npoint.io!");
-            } catch (err) {
-                console.error(err);
-                alert("Errore nell'aggiornamento remoto. Puoi sempre usare 'Esporta File JSON' per aggiornare il file.");
-            }
-        }
-
-        function toggleAutoSync(enabled) {
-            if (autoSyncTimer) clearInterval(autoSyncTimer);
-            if (enabled) {
-                autoSyncTimer = setInterval(() => {
-                    const url = document.getElementById('npoint-url-input').value.trim();
-                    if (url) syncFromLink();
-                }, 30 * 60 * 1000); // 5 minutes
-                showToast("Sincronizzazione automatica attiva (ogni 30 min)");
-            }
-        }
+                //if (!res.ok) throw new Error("Errore durante il salvataggio remoto");
+                //localStorage.setItem('coro_npoint_url', urlInput);
+                //document.getElementById('sync-status').innerText = "Salvato su Remote npoint (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
+                //showToast("Dati aggiornati su npoint.io!");
+            //} catch (err) {
+                //console.error(err);
+                //alert("Errore nell'aggiornamento remoto. Puoi sempre usare 'Esporta File JSON' per aggiornare il file.");
+            //}
+        //}
 
         function exportJSONFile() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(choirData, null, 2));
@@ -1102,7 +1120,6 @@
             downloadAnchor.remove();
         }
 
-        // ================= MODAL & MEDIA HELPERS =================
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
         }
@@ -1119,14 +1136,12 @@
             }
         }
 
-        // Helper per estrarre ID file Google Drive
         function getGoogleDriveId(url) {
             if (!url) return null;
             const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
             return match ? match[1] : null;
         }
 
-        // Helper per la formattazione sicura dei caratteri nei gestori JS
         function escapeJs(str) {
             if (!str) return '';
             return String(str)
@@ -1137,7 +1152,6 @@
                 .replace(/\r/g, '\\r');
         }
 
-        // Formatta qualsiasi URL (Drive, Dropbox, ecc.) in un link audio streaming diretto
         function formatAudioUrl(url) {
             if (!url) return '';
             const driveId = getGoogleDriveId(url);
@@ -1150,7 +1164,6 @@
             return url;
         }
 
-        // Funzione riproduzione audio ottimizzata ed unificata con avvio automatico
         function playAudio(title, subtitle, rawUrl) {
             document.getElementById('audio-modal-title').innerText = title;
             document.getElementById('audio-modal-subtitle').innerText = subtitle;
@@ -1184,7 +1197,6 @@
 
             openModal('modal-audio');
 
-            // Sequenza programmata con load() e play() per massima compatibilità cross-browser
             setTimeout(() => {
                 const player = document.getElementById('active-audio-player');
                 if (player) {
