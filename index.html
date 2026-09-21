@@ -990,7 +990,7 @@
 
             const shouldSendWa = document.getElementById('whatsapp-notify-check').checked;
             if (shouldSendWa) {
-                const message = `*CORO SAN MICHELE - VILLASMUNDO*\n\n🔔 *Eseguito Aggiornamento / Comunicazioni:*\n${text}`;
+                const message = `*CORO SAN MICHELE*\n\n🔔 *Eseguito Aggiornamento / Comunicazioni:*\n${text}`;
                 const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                 window.open(waUrl, '_blank');
             }
