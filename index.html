@@ -220,7 +220,7 @@
             <div class="bg-amber-500/10 border border-amber-300/60 rounded-2xl p-4 text-center shadow-sm">
                 <p class="text-xs sm:text-sm text-amber-900 font-semibold">
                     <i class="fa-solid fa-users-line text-amber-600 mr-2"></i>
-                    Coro San Michele • Elementi Attivi
+                    Coro Parrocchiale San Michele • Elementi Attivi
                 </p>
             </div>
 
@@ -305,11 +305,29 @@
                 <div class="bg-gradient-to-r from-amber-700 to-indigo-900 p-5 rounded-2xl text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-md">
                     <div>
                         <h2 class="font-cinzel text-xl font-bold text-amber-200">Pannello di Controllo Direzione</h2>
-                        <p class="text-xs text-slate-200">Gestisci canti, scalette, membri del coro e comunicazioni.</p>
+                        <p class="text-xs text-slate-200">Gestisci canti, scalette, membri del coro, comunicazioni e salvataggio dati.</p>
                     </div>
                     <button onclick="lockAdmin()" class="bg-white/15 hover:bg-white/25 text-white text-xs px-3.5 py-2 rounded-xl border border-white/20 flex items-center gap-1.5 backdrop-blur-sm transition">
                         <i class="fa-solid fa-lock"></i> Chiudi Sessione Admin
                     </button>
+                </div>
+
+                <!-- Admin Action 0: Salvataggio Remoto & Backup -->
+                <div class="bg-gradient-to-br from-indigo-50 via-white to-amber-50/50 p-5 rounded-2xl border border-indigo-200/80 shadow-sm space-y-3">
+                    <h3 class="text-xs font-extrabold text-indigo-900 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-cloud-arrow-up text-indigo-600 text-sm"></i> Salvataggio Modifiche & Backup Remoto
+                    </h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Invia le nuove modifiche direttamente a Google Drive oppure esporta un file JSON di backup sul tuo dispositivo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2.5 pt-1">
+                        <button onclick="saveToDriveLink()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Salva su Google Drive
+                        </button>
+                        <button onclick="exportJSONFile()" class="bg-white hover:bg-slate-100 text-amber-900 border border-amber-300 font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition shadow-sm">
+                            <i class="fa-solid fa-download"></i> Esporta Backup JSON
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Admin Action 1: Comunicazioni & WhatsApp -->
@@ -377,34 +395,31 @@
 
     </main>
 
-    <!-- FOOTER SYNC & JSON STORAGE -->
+    <!-- FOOTER SYNC -->
     <footer class="mt-auto bg-white border-t border-amber-200/80 py-6 px-4 shadow-md">
         <div class="max-w-5xl mx-auto space-y-4">
             
             <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl space-y-4 shadow-sm">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-200 pb-3">
                     <h3 class="text-xs sm:text-sm font-bold text-amber-800 flex items-center gap-2">
-                        <i class="fa-solid fa-arrows-rotate text-amber-600"></i> Sincronizzazione Dati
+                        <i class="fa-brands fa-google-drive text-amber-600 text-base"></i> Sincronizzazione Dati Remota (Google Drive)
                     </h3>
                     <span class="text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full font-semibold flex items-center gap-1">
                         <i class="fa-solid fa-bolt text-xs"></i> Sincronizzazione automatica all'avvio
                     </span>
                 </div>
 
-                <!-- Input for NPoint Link -->
+                <!-- Input for Google Drive / Apps Script Link -->
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <input type="url" id="npoint-url-input" placeholder="Incolla il link npoint JSON (es: https://api.npoint.io/xxxxxx)" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
-                    <button onclick="syncFromLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
-                        <i class="fa-solid fa-cloud-arrow-down"></i> Sincronizza da link
+                    <input type="url" id="gdrive-url-input" placeholder="Incolla il link della Web App Google Drive (es. https://script.google.com/macros/s/.../exec)" class="flex-1 bg-white border border-slate-200 text-xs sm:text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-amber-500">
+                    <button onclick="syncFromDriveLink()" class="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition shadow-sm">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Carica da Drive
                     </button>
                 </div>
 
-                <!-- Export & Backup Button -->
+                <!-- Export & Backup Button / Status -->
                 <div class="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600">
                     <span>Stato Sincronizzazione: <strong id="sync-status" class="text-amber-800 font-bold">In Memoria Locale</strong></span>
-                    <button onclick="exportJSONFile()" class="bg-white hover:bg-slate-100 text-amber-800 border border-amber-300 px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition font-bold shadow-sm">
-                        <i class="fa-solid fa-download"></i> Esporta File JSON
-                    </button>
                 </div>
             </div>
 
@@ -528,7 +543,7 @@
     <script>
         const initialChoirData = {
             logoUrl: "",
-            comunicazioni: "",
+            comunicazioni: "Prossime prove del coro: Giovedì ore 20:30 in Parrocchia. Preparare i canti per la Messa di Domenica.",
             repertorio: [
                 {
                     id: 1,
@@ -604,11 +619,11 @@
         let currentTab = 'repertorio';
 
         window.addEventListener('DOMContentLoaded', async () => {
-            const savedUrl = localStorage.getItem('coro_npoint_url');
+            const savedUrl = localStorage.getItem('coro_gdrive_url') || localStorage.getItem('coro_npoint_url');
             if (savedUrl) {
-                document.getElementById('npoint-url-input').value = savedUrl;
-                // Automatic sync from remote link on app start
-                await syncFromLink(true);
+                document.getElementById('gdrive-url-input').value = savedUrl;
+                // Automatic sync from Google Drive link on app start
+                await syncFromDriveLink(true);
             } else {
                 renderAllSections();
             }
@@ -814,6 +829,9 @@
                 const card = document.createElement('div');
                 card.className = "bg-white border border-amber-200/80 rounded-2xl p-5 shadow-sm space-y-4 hover:shadow-md transition";
                 
+                // Conversione automatica della data da AAAA-MM-GG a GG/MM/AAAA
+                const dataFormattata = scaletta.data ? scaletta.data.split('-').reverse().join('/') : '';
+
                 let cantiHtml = '';
                 if (scaletta.canti && scaletta.canti.length > 0) {
                     cantiHtml = scaletta.canti.map((item) => `
@@ -838,18 +856,16 @@
                             </div>
                         </div>
                     `).join('');
-                } // else {
-                  //  cantiHtml = `<p class="text-xs text-slate-500 italic">Nessun canto assegnato a questa scaletta.</p>`;
-               // }
+                }
 
                 card.innerHTML = `
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-amber-100 pb-3 gap-2">
                         <div>
-                            <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3> 
+                            <h3 class="font-cinzel text-lg font-bold text-amber-950">${scaletta.titolo}</h3>
                             <div class="flex flex-wrap gap-1.5 items-center mb-1">
                                 <span class="text-[10px] font-extrabold bg-indigo-50 text-indigo-900 border border-indigo-200 px-2.5 py-0.5 rounded-full"><i class="fa-solid fa-calendar-days mr-1"></i>${scaletta.tempoLiturgico || 'Generico'}</span>
                                 <span class="text-[10px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full uppercase tracking-wider">${scaletta.tipo || 'Messa'}</span>
-                                <span class="text-xs text-slate-500 font-semibold ml-1">${scaletta.data || ''}</span>
+                                <span class="text-xs text-slate-500 font-semibold ml-1">${dataFormattata}</span>
                             </div>
                         </div>
                         <div class="flex items-center gap-2 flex-wrap">
@@ -1046,45 +1062,79 @@
                 parteVoce: document.getElementById('add-corista-parte-link').value,
                 audioParteVoce: document.getElementById('add-corista-audio-link').value
             };
-            if (!choirData.coristi[registro]) choirData.coristi[registro] = [];
-            choirData.coristi[registro].push(newCorista);
+            if (!choirData.coristi[registro]) {
+                choirData.coristi[registro] = [];
+            }
+            choirData.coristi[registro].unshift(newCorista);
             closeModal('modal-add-corista');
             e.target.reset();
             renderAllSections();
-            showToast("Corista aggiunto correttamente!");
+            showToast("Corista aggiunto con successo!");
         }
 
-        async function syncFromLink(isAutoSyncOnLoad = false) {
-            const urlInput = document.getElementById('npoint-url-input').value.trim();
+        async function syncFromDriveLink(isAutoSyncOnLoad = false) {
+            let urlInput = document.getElementById('gdrive-url-input').value.trim();
             if (!urlInput) {
-                if (!isAutoSyncOnLoad) alert("Inserisci un link npoint valido (es: https://api.npoint.io/xxxxxx)");
+                if (!isAutoSyncOnLoad) alert("Inserisci il link della Web App Google Drive (es: https://script.google.com/macros/s/.../exec)");
                 return;
+            }
+
+            const driveId = getGoogleDriveId(urlInput);
+            if (driveId && !urlInput.includes('script.google.com')) {
+                urlInput = `https://lh3.googleusercontent.com/d/${driveId}`;
             }
 
             try {
                 const statusEl = document.getElementById('sync-status');
-                if (statusEl) statusEl.innerText = "Sincronizzazione in corso...";
+                if (statusEl) statusEl.innerText = "Sincronizzazione da Drive in corso...";
 
-                const res = await fetch(urlInput);
+                const res = await fetch(urlInput, { method: 'GET', redirect: 'follow' });
                 if (!res.ok) throw new Error("Risposta server non valida");
                 const data = await res.json();
 
-                if (data) {
+                if (data && typeof data === 'object') {
                     choirData = data;
-                    localStorage.setItem('coro_npoint_url', urlInput);
+                    localStorage.setItem('coro_gdrive_url', urlInput);
                     renderAllSections();
-                    if (statusEl) statusEl.innerText = "Sincronizzato da npoint (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
-                    showToast(isAutoSyncOnLoad ? "Dati sincronizzati automaticamente all'avvio!" : "Dati sincronizzati con successo dal link!");
+                    if (statusEl) statusEl.innerText = "Sincronizzato da Google Drive (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
+                    showToast(isAutoSyncOnLoad ? "Dati sincronizzati da Google Drive!" : "Dati caricati con successo da Google Drive!");
                 }
             } catch (err) {
-                console.error("Errore sincronizzazione npoint:", err);
+                console.error("Errore sincronizzazione Google Drive:", err);
                 const statusEl = document.getElementById('sync-status');
-                if (statusEl) statusEl.innerText = "Errore durante il recupero del JSON";
+                if (statusEl) statusEl.innerText = "Errore recupero dati da Drive";
                 if (!isAutoSyncOnLoad) {
-                    alert("Impossibile sincronizzare dal link fornito. Verifica l'URL o la connessione.");
+                    alert("Impossibile sincronizzare dal link fornito. Verifica l'URL della Web App di Google Apps Script.");
                 } else {
                     renderAllSections();
                 }
+            }
+        }
+
+        async function saveToDriveLink() {
+            const urlInput = document.getElementById('gdrive-url-input').value.trim();
+            if (!urlInput || !urlInput.includes('script.google.com')) {
+                alert("Per salvare su Google Drive occorre inserire l'URL della Web App di Google Apps Script (https://script.google.com/macros/s/.../exec).");
+                return;
+            }
+
+            try {
+                document.getElementById('sync-status').innerText = "Invio dati a Google Drive...";
+                
+                const res = await fetch(urlInput, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(choirData),
+                    redirect: 'follow'
+                });
+
+                if (!res.ok) throw new Error("Errore durante il salvataggio su Drive");
+                localStorage.setItem('coro_gdrive_url', urlInput);
+                document.getElementById('sync-status').innerText = "Salvato su Google Drive (" + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ")";
+                showToast("Dati salvati con successo sul file JSON in Google Drive!");
+            } catch (err) {
+                console.error("Errore salvataggio Google Drive:", err);
+                alert("Errore durante il salvataggio su Drive. Assicurati che lo script sia pubblicato come 'Chiunque' (Anyone).");
             }
         }
 
@@ -1134,7 +1184,7 @@
             if (!url) return '';
             const driveId = getGoogleDriveId(url);
             if (driveId) {
-                return `https://lh3.googleusercontent.com/d/${driveId}`;
+                return `https://drive.google.com/file/d/${driveId}/preview`;
             }
             if (url.includes('dropbox.com')) {
                 return url.replace('dl=0', 'raw=1').replace('www.dropbox.com', 'dl.dropboxusercontent.com');
@@ -1147,60 +1197,79 @@
             document.getElementById('audio-modal-subtitle').innerText = subtitle;
             const container = document.getElementById('audio-container');
             
-            const formattedUrl = formatAudioUrl(rawUrl);
             const driveId = getGoogleDriveId(rawUrl);
 
-            container.innerHTML = `
-                <div class="space-y-3 text-center">
-                    ${/*<audio id="active-audio-player" src="${formattedUrl}" controls preload="auto" class="w-full rounded-xl bg-slate-100 p-2 border border-slate-200">
-                        Il tuo browser non supporta la riproduzione diretta dell'audio.
-                    </audio>
-                    */''}
-                    <div id="audio-error-fallback" class="${driveId ? '' : 'hidden'} p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 space-y-2">
-                        <p class="font-semibold text-amber-800 flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-circle-info text-amber-600"></i> Player integrato Google Drive:
+            if (driveId) {
+                // Google Drive Player Embed
+                container.innerHTML = `
+                    <div class="space-y-4 text-center">
+                        <div class="bg-slate-900/5 p-2 rounded-2xl border border-slate-200/80 shadow-inner overflow-hidden">
+                            <iframe src="https://drive.google.com/file/d/${driveId}/preview" class="w-full h-32 rounded-xl border-0" allow="autoplay"></iframe>
+                        </div>
+                        <p class="text-[11px] text-slate-500 font-medium">
+                            <i class="fa-solid fa-circle-info text-amber-600 mr-1"></i> Premi il tasto Play nel riproduttore Google Drive
                         </p>
-                        ${driveId ? `
-                            <iframe src="https://drive.google.com/file/d/${driveId}/preview" class="w-full h-40 rounded-lg border border-slate-300" allow="autoplay"></iframe>
-                        ` : '<p class="text-[11px] text-slate-600">Se l\'audio non parte automaticamente, premi Play sul lettore o usa il link sottostante.</p>'}
+                        <div class="pt-1">
+                            <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Apri file originale su Google Drive
+                            </a>
+                        </div>
                     </div>
-                    ${/*
-                    <div class="pt-1 text-center">
-                        <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="text-xs text-amber-700 font-bold underline hover:text-amber-800 inline-flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Apri / Scarica file originale
-                        </a>
-                    </div> */''}
-                </div>
-            `;
+                `;
+            } else {
+                // Standard Direct MP3 / Audio Stream Player
+                const formattedUrl = formatAudioUrl(rawUrl);
+                container.innerHTML = `
+                    <div class="space-y-4 text-center">
+                        <audio id="active-audio-player" src="${formattedUrl}" controls autoplay preload="auto" class="w-full rounded-xl bg-slate-100 p-2 border border-slate-200">
+                            Il tuo browser non supporta la riproduzione diretta dell'audio.
+                        </audio>
 
-            openModal('modal-audio');
+                        <div id="autoplay-warning" class="hidden p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
+                            <p class="font-semibold mb-1">
+                                <i class="fa-solid fa-circle-info text-amber-600"></i> Se l'audio non parte da solo, tocca il pulsante:
+                            </p>
+                            <button onclick="startManualPlay()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 px-3 rounded-lg text-xs transition shadow-sm mt-1 flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-play"></i> Avvia Riproduzione Audio
+                            </button>
+                        </div>
 
-            setTimeout(() => {
+                        <div class="pt-1 text-center">
+                            <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl text-xs transition shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i> Apri / Scarica file originale
+                            </a>
+                        </div>
+                    </div>
+                `;
+
                 const player = document.getElementById('active-audio-player');
                 if (player) {
                     try {
                         player.load();
+                        const playPromise = player.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.warn("Autoplay audio bloccato dal browser:", error);
+                                const warning = document.getElementById('autoplay-warning');
+                                if (warning) warning.classList.remove('hidden');
+                            });
+                        }
                     } catch(e) {
-                        console.warn("Errore durante il caricamento del player audio:", e);
-                    }
-
-                    player.onerror = function() {
-                        const fallback = document.getElementById('audio-error-fallback');
-                        if (fallback) fallback.classList.remove('hidden');
-                    };
-
-                    const playPromise = player.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(error => {
-                            console.warn("Autoplay audio bloccato dal browser o dai permessi del link:", error);
-                            const fallback = document.getElementById('audio-error-fallback');
-                            if (fallback && driveId) {
-                                fallback.classList.remove('hidden');
-                            }
-                        });
+                        console.warn("Errore riproduzione audio:", e);
                     }
                 }
-            }, 50);
+            }
+
+            openModal('modal-audio');
+        }
+
+        function startManualPlay() {
+            const player = document.getElementById('active-audio-player');
+            if (player) {
+                player.play();
+                const warning = document.getElementById('autoplay-warning');
+                if (warning) warning.classList.add('hidden');
+            }
         }
 
         function showToast(msg) {
