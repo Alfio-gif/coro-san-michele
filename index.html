@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Inter & Cinzel for sacred elegance -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon classica per browser desktop -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <!-- Icona per iOS (iPhone/iPad) quando salvato sulla Schermata Home -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <!-- Collegamento al Web App Manifest (Android/Chrome) -->
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#1e1e1e">
+
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
     <script>
         tailwind.config = {
             theme: {
@@ -1285,5 +1295,13 @@
             document.getElementById('toast').classList.add('hidden');
         }
     </script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => console.log("Service Worker registrato"))
+          .catch(err => console.error("SW error:", err));
+      }
+    </script>
+
 </body>
 </html>
