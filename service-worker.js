@@ -2,8 +2,8 @@ self.addEventListener("install", event => {
   event.waitUntil(
     caches.open("coro-cache").then(cache => {
       return cache.addAll([
-        "/coro-san-michele/",
-        "/coro-san-michele/index.html"
+        "./",
+        "./index.html"
       ]);
     })
   );
