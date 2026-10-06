@@ -23,7 +23,11 @@
     <meta name="theme-color" content="#1e1e1e">
 
     <!-- <link rel="apple-touch-icon" href="./icons/icon-192.png"> -->
-
+    <script>
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.register("/coro-san-michele/service-worker.js");
+        }
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -1299,12 +1303,5 @@
             document.getElementById('toast').classList.add('hidden');
         }
     </script>
-    <script>
-        if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("/coro-san-michele/sw.js");
-        }
-    </script>
-
-
-</body>
+    </body>
 </html>
