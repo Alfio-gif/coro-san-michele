@@ -1,0 +1,57 @@
+/* General Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F0FBFF;
+    color: #0F172A;
+}
+
+header, footer {
+    text-align: center;
+    padding: 1rem;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    margin: 0;
+}
+
+.main-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+}
+
+.main-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.main-content li {
+    background-color: #E0F7FF;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+/* Links */
+a {
+    color: #0288D1;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Logo Container */
+.logo-container img {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Header and Footer Styles */
+header .logo-container {
+    display: inline-block;
+    margin-right: 1rem;
+}
