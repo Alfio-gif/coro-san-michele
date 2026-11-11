@@ -1,4 +1,4 @@
-const SYNC_URL = "LINK_APPS_SCRIPT_DA_INCOLLARE_PUI";
+const SYNC_URL = "https://script.google.com/macros/s/AKfycbxLi3Z4XDa1P4ZDRutiuZul48QNJEhWTVlAJlqbyXGUvINANpYr32uV0Qh-pXRiF-YPZw/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetch(SYNC_URL)
