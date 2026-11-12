@@ -1,0 +1,25 @@
+{
+  "id": "coro-san-michele",
+  "name": "Coro San Michele - Villasmundo",
+  "short_name": "Coro SM",
+  "description": "App del coro parrocchiale: canti, salmi, scalette, coristi, prove e comunicazioni.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#e0f2fe",
+  "theme_color": "#0ea5e9",
+  "lang": "it-IT",
+  "icons": [
+    {
+      "src": "https://lh3.googleusercontent.com/d/1bOHrWQf4eBXjza678ojOg7AJFuZ3h1x5",
+      "sizes": "any",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

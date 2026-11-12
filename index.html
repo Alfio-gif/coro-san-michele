@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Coro San Michele</title>
+  <meta name="description" content="App del Coro San Michele - Parrocchia San Michele Arcangelo - Villasmundo"/>
+  <meta name="theme-color" content="#0ea5e9"/>
+
+  <link rel="manifest" href="./manifest.webmanifest"/>
+  <link rel="icon" type="image/svg+xml" href="./icon.svg"/>
+  <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1bOHrWQf4eBXjza678ojOg7AJFuZ3h1x5"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --border: #bae6fd;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1220;
+      --card: #111827;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --border: #1e3a8a;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    h1, h2, h3, .cinzel {
+      font-family: Cinzel, serif;
+      margin-top: 0;
+    }
+
+    p { margin: .35rem 0; }
+
+    a { color: var(--primary-dark); }
+
+    [data-theme="dark"] a { color: #7dd3fc; }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(14,165,233,.14), transparent);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: #fff;
+      border: 1px solid var(--border);
+    }
+
+    .brand h1 {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      margin-bottom: .15rem;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      flex-wrap: wrap;
+    }
+
+    .tabs {
+      display: flex;
+      gap: .45rem;
+      padding: .8rem 1rem;
+      overflow-x: auto;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    main {
+      width: 100%;
+      max-width: 1150px;
+      margin: 0 auto;
+      padding: 1.2rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 12px 30px rgba(2,6,23,.06);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 780px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #e0f2fe, #bae6fd);
+      color: #0c4a6e;
+      padding: .7rem .95rem;
+      border-radius: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    [data-theme="dark"] .btn {
+      background: linear-gradient(180deg, #0ea5e9, #0284c7);
+      color: white;
+      border-color: #38bdf8;
+    }
+
+    .icon-btn {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      cursor: pointer;
+      font-size: 1.05rem;
+    }
+
+    .danger {
+      background: #fee2e2 !important;
+      color: #b91c1c !important;
+      border-color: #fecaca !important;
+    }
+
+    [data-theme="dark"] .danger {
+      background: #7f1d1d !important;
+      color: #fecaca !important;
+      border-color: #991b1b !important;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .42rem .7rem;
+      border-radius: 999px;
+      font-size: .86rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .status.loading { background: #e0f2fe; color: #075985; border-color: #bae6fd; }
+    .status.ok { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .status.warn { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+    .status.error { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+
+    [data-theme="dark"] .status.loading,
+    [data-theme="dark"] .status.ok,
+    [data-theme="dark"] .status.warn,
+    [data-theme="dark"] .status.error {
+      background: rgba(255,255,255,.08);
+      color: #f8fafc;
+      border-color: var(--border);
+    }
+
+    .tab {
+      appearance: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text);
+      padding: .65rem .9rem;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      background: linear-gradient(180deg, #e0f2fe, #bae6fd);
+      border-color: var(--border);
+      color: #0c4a6e;
+    }
+
+    [data-theme="dark"] .tab.active {
+      background: rgba(56,189,248,.16);
+      color: white;
+      border-color: #38bdf8;
+    }
+
+    .comunicazioni {
+      border-left: 6px solid var(--primary);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: .25rem .55rem;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 700;
+      background: #e0f2fe;
+      color: #075985;
+      border: 1px solid #bae6fd;
+    }
+
+    [data-theme="dark"] .badge {
+      background: rgba(56,189,248,.16);
+      color: #e0f2fe;
+      border-color: #38bdf8;
+    }
+
+    .badge.ok { background: #dcfce7; color: #166534; border-color: #bbf7d0; }
+    .badge.warn { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+
+    [data-theme="dark"] .badge.ok,
+    [data-theme="dark"] .badge.warn {
+      background: rgba(255,255,255,.1);
+      color: white;
+      border-color: var(--border);
+    }
+
+    .muted { color: var(--muted); }
+
+    .row {
+      display: flex;
+      gap: .6rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .stack {
+      display: grid;
+      gap: .9rem;
+    }
+
+    .field {
+      display: block;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      margin-top: .35rem;
+      padding: .72rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    .admin-subtabs {
+      display: flex;
+      gap: .45rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    .subtab {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      padding: .62rem .85rem;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .subtab.active {
+      background: linear-gradient(180deg, #e0f2fe, #bae6fd);
+      color: #0c4a6e;
+    }
+
+    [data-theme="dark"] .subtab.active {
+      background: rgba(56,189,248,.16);
+      color: white;
+    }
+
+    .admin-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: .95rem;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: .75rem;
+      background: var(--bg);
+    }
+
+    .actions { display: flex; gap: .45rem; flex-wrap: wrap; }
+
+    .empty { text-align: center; color: var(--muted); padding: 2rem 1rem; }
+
+    footer {
+      padding: 1.3rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <img src="https://lh3.googleusercontent.com/d/1bOHrWQf4eBXjza678ojOg7AJFuZ3h1x5" alt="Logo Coro San Michele" onerror="this.onerror=null; this.src='./icon.svg';"/>
+      <div>
+        <h1>Coro San Michele</h1>
+        <p>Parrocchia San Michele Arcangelo · Villasmundo</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <span id="syncStatus" class="status loading">Inizializzazione…</span>
+      <button id="installBtn" class="btn hidden">Installa app</button>
+      <button id="themeBtn" class="icon-btn" title="Cambia tema">🌗</button>
+      <button id="adminBtn" class="btn">Admin</button>
+    </div>
+  </header>
+
+  <nav id="tabs" class="tabs"></nav>
+
+  <main>
+    <section id="view" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    App PWA del Coro San Michele · Sincronizzazione Google Apps Script + JSON su Drive
+  </footer>
+
+  <script>
+    const SYNC_URL = "https://script.google.com/macros/s/AKfycbxLi3Z4XDa1P4ZDRutiuZul48QNJEhWTVlAJlqbyXGUvINANpYr32uV0Qh-pXRiF-YPZw/exec";
+    const LOGO_URL = "https://lh3.googleusercontent.com/d/1bOHrWQf4eBXjza678ojOg7AJFuZ3h1x5";
+    const DEFAULT_ADMIN_PASSWORD = 'coro123';
+
+    let state = {
+      meta: {},
+      comunicazioni: [],
+      canti: [],
+      salmi: [],
+      scalette: [],
+      coristi: [],
+      prove: []
+    };
+
+    let currentTab = 'home';
+    let currentAdminSection = 'comunicazioni';
+    let adminAuthed = sessionStorage.getItem('coro-admin') === '1';
+    let adminEditing = { type: null, id: null };
+    let deferredPrompt = null;
+
+    const TABS = [
+      { id: 'home', label: 'Home' },
+      { id: 'canti', label: 'Canti' },
+      { id: 'salmi', label: 'Salmi' },
+      { id: 'scalette', label: 'Scalette' },
+      { id: 'coristi', label: 'Coristi' },
+      { id: 'prove', label: 'Prove' }
+    ];
+
+    const ENTITY_CONFIG = {
+      comunicazioni: {
+        label: 'Comunicazioni',
+        sort: (a, b) => String(b.data || '').localeCompare(String(a.data || '')),
+        title: i => i.titolo || 'Senza titolo',
+        fields: [
+          { key: 'titolo', label: 'Titolo', type: 'text' },
+          { key: 'testo', label: 'Testo', type: 'textarea' },
+          { key: 'data', label: 'Data', type: 'date' },
+          { key: 'priorita', label: 'Priorità', type: 'select', options: ['alta', 'media', 'bassa'] }
+        ]
+      },
+
+      canti: {
+        label: 'Canti',
+        sort: (a, b) => String(a.titolo || '').localeCompare(String(b.titolo || '')),
+        title: i => i.titolo || 'Canto',
+        fields: [
+          { key: 'titolo', label: 'Titolo', type: 'text' },
+          { key: 'autore', label: 'Autore / Compositore', type: 'text' },
+          { key: 'tonalita', label: 'Tonalità', type: 'text' },
+          { key: 'difficolta', label: 'Difficoltà', type: 'select', options: ['facile', 'media', 'avanzata'] },
+          { key: 'note', label: 'Note / testo', type: 'textarea' },
+          { key: 'audioUrl', label: 'Link audio opzionale', type: 'url' },
+          { key: 'pdfUrl', label: 'Link PDF opzionale', type: 'url' }
+        ]
+      },
+
+      salmi: {
+        label: 'Salmi',
+        sort: (a, b) => String(a.titolo || '').localeCompare(String(b.titolo || '')),
+        title: i => i.titolo || 'Salmo',
+        fields: [
+          { key: 'titolo', label: 'Titolo o numero salmo', type: 'text' },
+          { key: 'testo', label: 'Testo / riferimento', type: 'textarea' },
+          { key: 'note', label: 'Note', type: 'textarea' }
+        ]
+      },
+
+      scalette: {
+        label: 'Scalette',
+        sort: (a, b) => String(b.data || '').localeCompare(String(a.data || '')),
+        title: i => i.titolo || (i.data ? formatDate(i.data) : 'Scaletta'),
+        fields: [
+          { key: 'data', label: 'Data', type: 'date' },
+          { key: 'titolo', label: 'Titolo / Celebrazione', type: 'text' },
+          { key: 'descrizione', label: 'Descrizione', type: 'textarea' },
+          { key: 'cantiIds', label: 'Canti nella scaletta', multiple: true, collection: 'canti' },
+          { key: 'salmiIds', label: 'Salmi nella scaletta', multiple: true, collection: 'salmi' }
+        ]
+      },
+
+      coristi: {
+        label: 'Coristi',
+        sort: (a, b) => String(a.nome || '').localeCompare(String(b.nome || '')),
+        title: i => i.nome || 'Corista',
+        fields: [
+          { key: 'nome', label: 'Nome e cognome', type: 'text' },
+          { key: 'ruolo', label: 'Ruolo / voce', type: 'select', options: ['Soprano', 'Contralto', 'Tenore', 'Basso', 'Direzione', 'Altro'] },
+          { key: 'telefono', label: 'Telefono', type: 'text' },
+          { key: 'whatsapp', label: 'WhatsApp', type: 'text' },
+          { key: 'note', label: 'Note', type: 'textarea' }
+        ]
+      },
+
+      prove: {
+        label: 'Prove e presenze',
+        sort: (a, b) => String(b.data || '').localeCompare(String(a.data || '')),
+        title: i => (i.data ? formatDate(i.data) : 'Prova') + (i.luogo ? ' · ' + i.luogo : ''),
+        fields: [
+          { key: 'data', label: 'Data', type: 'date' },
+          { key: 'ora', label: 'Ora', type: 'time' },
+          { key: 'luogo', label: 'Luogo', type: 'text' },
+          { key: 'note', label: 'Note', type: 'textarea' },
+          { key: 'presenteIds', label: 'Presenti', multiple: true, collection: 'coristi' },
+          { key: 'scujaIds', label: 'Scusati / assenti giustificati', multiple: true, collection: 'coristi' }
+        ]
+      }
+    };
+
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const b = document.getElementById('installBtn');
+      if (b) b.classList.remove('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      initialSync();
+    });
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    function $(s) { return document.querySelector(s); }
+
+    function esc(v) {
+      return String(v ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function uid(prefix) {
+      return prefix + '-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return iso;
+      return d.toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+
+    function priorityRank(p) {
+      return p === 'alta' ? 0 : p === 'media' ? 1 : 2;
+    }
+
+    function waLink(phone) {
+      const digits = String(phone || '').replace(/\D/g, '');
+      if (!digits) return '';
+      return 'https://wa.me/' + digits;
+    }
+
+    function coristaName(id) {
+      const c = (state.coristi || []).find(x => x.id === id);
+      return c ? (c.nome || 'Corista') : 'Corista';
+    }
+
+    async function sha256(text) {
+      if (!window.crypto || !window.crypto.subtle) throw new Error('crypto.subtle non disponibile');
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(text)));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('coro-theme', theme);
+      const btn = $('#themeBtn');
+      if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem('coro-theme');
+      applyTheme(savedTheme || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'));
+      bindHeader();
+      renderTabs();
+      renderView();
+      initialSync();
+    }
+
+    function bindHeader() {
+      $('#themeBtn').addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+      });
+
+      $('#adminBtn').addEventListener('click', () => {
+        if (adminAuthed) {
+          adminAuthed = false;
+          sessionStorage.removeItem('coro-admin');
+          currentTab = 'home';
+        } else {
+          currentTab = 'admin';
+        }
+        renderTabs();
+        renderView();
+        updateAdminButton();
+      });
+
+      const installBtn = $('#installBtn');
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          installBtn.classList.add('hidden');
+        });
+      }
+    }
+
+    function updateAdminButton() {
+      const b = $('#adminBtn');
+      if (b) b.textContent = adminAuthed ? 'Esci admin' : 'Admin';
+    }
+
+    function renderTabs() {
+      const el = $('#tabs');
+      el.innerHTML = TABS.map(t => `
+        <button class="tab ${t.id === currentTab ? 'active' : ''}" data-tab="${t.id}">${t.label}</button>
+      `).join('');
+
+      document.querySelectorAll('.tab').forEach(b => {
+        b.addEventListener('click', () => {
+          currentTab = b.dataset.tab;
+          adminEditing = { type: null, id: null };
+          renderTabs();
+          renderView();
+        });
+      });
+
+      updateAdminButton();
+    }
+
+    function setStatus(kind, msg) {
+      const el = $('#syncStatus');
+      if (!el) return;
+      el.className = 'status ' + kind;
+      el.textContent = msg;
+    }
+
+    function ensureDefaults(data) {
+      data.meta = data.meta || {};
+      ['comunicazioni', 'canti', 'salmi', 'scalette', 'coristi', 'prove'].forEach(k => {
+        if (!Array.isArray(data[k])) data[k] = [];
+      });
+      return data;
+    }
+
+    function saveLocal() {
+      localStorage.setItem('coro-data', JSON.stringify(state));
+    }
+
+    function loadLocal() {
+      try {
+        const raw = localStorage.getItem('coro-data');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+
+    async function fetchRemote() {
+      const res = await fetch(SYNC_URL, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        throw new Error('Risposta non JSON');
+      }
+    }
+
+    async function pushRemote(data) {
+      const res = await fetch(SYNC_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(data),
+        cache: 'no-store'
+      });
+
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      try {
+        return await res.json();
+      } catch (e) {
+        return { ok: true };
+      }
+    }
+
+    async function initialSync() {
+      try {
+        setStatus('loading', 'Sincronizzazione…');
+        const remote = await fetchRemote();
+        state = ensureDefaults(remote);
+        saveLocal();
+        checkNotifications();
+        setStatus('ok', 'Dati sincronizzati');
+      } catch (e) {
+        console.warn('Sync fallita:', e);
+        const local = loadLocal();
+        if (local) state = ensureDefaults(local);
+        else ensureDefaults(state);
+        saveLocal();
+        setStatus('warn', 'Offline / dati locali');
+      }
+
+      renderTabs();
+      renderView();
+      updateAdminButton();
+    }
+
+    function checkNotifications() {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+
+      const comms = (state.comunicazioni || []).slice().sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')));
+      const latest = comms[0];
+      if (!latest) return;
+
+      const lastSeen = localStorage.getItem('coro-last-seen-comm');
+      if (lastSeen !== latest.id) {
+        new Notification('Coro San Michele', { body: latest.titolo || 'Nuova comunicazione importante' });
+        localStorage.setItem('coro-last-seen-comm', latest.id);
+      }
+    }
+
+    function enableNotifications() {
+      if (!('Notification' in window)) {
+        alert('Notifiche non supportate da questo browser.');
+        return;
+      }
+
+      Notification.requestPermission().then(p => {
+        if (p === 'granted') {
+          new Notification('Coro San Michele', { body: 'Notifiche locali attive.' });
+          setStatus('ok', 'Notifiche attive');
+        }
+      });
+    }
+
+    function renderView() {
+      const el = $('#view');
+      let html = '';
+
+      if (currentTab === 'home') html = homeHtml();
+      else if (currentTab === 'canti') html = cantiHtml();
+      else if (currentTab === 'salmi') html = salmiHtml();
+      else if (currentTab === 'scalette') html = scaletteHtml();
+      else if (currentTab === 'coristi') html = coristiHtml();
+      else if (currentTab === 'prove') html = proveHtml();
+      else if (currentTab === 'admin') html = adminHtml();
+
+      el.innerHTML = comunicazioniBox() + html;
+      bindViewEvents();
+    }
+
+    function comunicazioniBox() {
+      const items = (state.comunicazioni || []).slice().sort((a, b) => {
+        return String(b.data || '').localeCompare(String(a.data || '')) || priorityRank(b.priorita) - priorityRank(a.priorita);
+      });
+
+      if (!items.length) return '';
+
+      return `
+        <div class="card comunicazioni">
+          <h2>Comunicazioni Importanti</h2>
+          ${items.map(c => `
+            <div style="margin-top:.85rem;">
+              <strong>${esc(c.titolo || 'Comunicazione')}</strong>
+              <span class="badge">${esc(c.priorita || 'media')}</span>
+              ${c.data ? `<span class="muted"> · ${formatDate(c.data)}</span>` : ''}
+              <p style="white-space:pre-wrap;">${esc(c.testo || '')}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function emptyCard(msg) {
+      return `<div class="card empty"><p>${esc(msg)}</p></div>`;
+    }
+
+    function homeHtml() {
+      const counts = {
+        canti: (state.canti || []).length,
+        salmi: (state.salmi || []).length,
+        coristi: (state.coristi || []).length,
+        prove: (state.prove || []).length
+      };
+
+      const today = new Date().toISOString().slice(0, 10);
+      const futureProve = (state.prove || [])
+        .filter(p => p.data && p.data >= today)
+        .sort((a, b) => String(a.data).localeCompare(String(b.data)));
+
+      const nextProva = futureProve[0] || (state.prove || []).slice().sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')))[0];
+      const nextScaletta = (state.scalette || []).slice().sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')))[0];
+
+      return `
+        <div class="grid">
+          <article class="card">
+            <h2>Benvenuto</h2>
+            <p>Coro San Michele - Parrocchia San Michele Arcangelo - Villasmundo.</p>
+            <p class="muted">Qui trovi canti, salmi, scalette, coristi, prove e comunicazioni importanti.</p>
+          </article>
+
+          <article class="card">
+            <h2>Riepilogo</h2>
+            <div class="row" style="gap:.75rem;">
+              <span class="badge">${counts.canti} canti</span>
+              <span class="badge">${counts.salmi} salmi</span>
+              <span class="badge">${counts.coristi} coristi</span>
+              <span class="badge">${counts.prove} prove</span>
+            </div>
+          </article>
+
+          ${nextProva ? `
+            <article class="card">
+              <h2>Prossima prova</h2>
+              <p><strong>${esc(nextProva.luogo || 'Luogo da definire')}</strong></p>
+              <p>${formatDate(nextProva.data)} ${nextProva.ora ? 'alle ' + esc(nextProva.ora) : ''}</p>
+            </article>
+          ` : ''}
+
+          ${nextScaletta ? `
+            <article class="card">
+              <h2>Ultima scaletta</h2>
+              <p><strong>${esc(nextScaletta.titolo || 'Scaletta')}</strong></p>
+              <p>${formatDate(nextScaletta.data)}</p>
+            </article>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function cantiHtml() {
+      const items = (state.canti || []).slice().sort((a, b) => String(a.titolo || '').localeCompare(String(b.titolo || '')));
+      if (!items.length) return emptyCard('Nessun canto presente.');
+
+      return `
+        <div class="grid">
+          ${items.map(c => `
+            <article class="card">
+              <h3>${esc(c.titolo || 'Canto')}</h3>
+              <p class="muted">${esc(c.autore || '')}</p>
+              <div class="row" style="gap:.5rem;">
+                ${c.tonalita ? `<span class="badge">${esc(c.tonalita)}</span>` : ''}
+                ${c.difficolta ? `<span class="badge">${esc(c.difficolta)}</span>` : ''}
+              </div>
+              <p style="white-space:pre-wrap;">${esc(c.note || '')}</p>
+              <div class="row">
+                ${c.audioUrl ? `<a href="${esc(c.audioUrl)}" target="_blank" rel="noopener"><button class="btn">Audio</button></a>` : ''}
+                ${c.pdfUrl ? `<a href="${esc(c.pdfUrl)}" target="_blank" rel="noopener"><button class="btn">PDF</button></a>` : ''}
+              </div>
+            </article>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function salmiHtml() {
+      const items = (state.salmi || []).slice().sort((a, b) => String(a.titolo || '').localeCompare(String(b.titolo || '')));
+      if (!items.length) return emptyCard('Nessun salmo presente.');
+
+      return `
+        <div class="grid">
+          ${items.map(s => `
+            <article class="card">
+              <h3>${esc(s.titolo || 'Salmo')}</h3>
+              <p style="white-space:pre-wrap;">${esc(s.testo || '')}</p>
+              <p class="muted">${esc(s.note || '')}</p>
+            </article>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function namesFromIds(ids, collection) {
+      return (ids || []).map(id => {
+        const item = (collection || []).find(x => x.id === id);
+        if (!item) return null;
+        return item.titolo || item.nome || 'Elemento';
+      }).filter(Boolean);
+    }
+
+    function scaletteHtml() {
+      const items = (state.scalette || []).slice().sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')));
+      if (!items.length) return emptyCard('Nessuna scaletta presente.');
+
+      return `
+        <div class="grid">
+          ${items.map(s => {
+            const cantNames = namesFromIds(s.cantiIds, state.canti);
+            const salmiNames = namesFromIds(s.salmiIds, state.salmi);
+
+            return `
+              <article class="card">
+                <h3>${esc(s.titolo || 'Scaletta')}</h3>
+                <p><strong>${formatDate(s.data)}</strong></p>
+                <p style="white-space:pre-wrap;">${esc(s.descrizione || '')}</p>
+
+                ${cantNames.length ? `<p><strong>Canti:</strong><br/>${cantNames.map(x => esc(x)).join(' · ')}</p>` : ''}
+                ${salmiNames.length ? `<p><strong>Salmi:</strong><br/>${salmiNames.map(x => esc(x)).join(' · ')}</p>` : ''}
+              </article>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function coristiHtml() {
+      const items = (state.coristi || []).slice().sort((a, b) => String(a.nome || '').localeCompare(String(b.nome || '')));
+      if (!items.length) return emptyCard('Nessun corista presente.');
+
+      return `
+        <div class="grid">
+          ${items.map(c => {
+            const wa = waLink(c.whatsapp);
+            return `
+              <article class="card">
+                <h3>${esc(c.nome || 'Corista')}</h3>
+                ${c.ruolo ? `<span class="badge">${esc(c.ruolo)}</span>` : ''}
+                <p style="white-space:pre-wrap;">${esc(c.note || '')}</p>
+                <div class="row">
+                  ${c.telefono ? `<a href="tel:${esc(String(c.telefono).replace(/\s/g, ''))}"><button class="btn">Chiama</button></a>` : ''}
+                  ${wa ? `<a href="${wa}" target="_blank" rel="noopener"><button class="btn">WhatsApp</button></a>` : ''}
+                </div>
+              </article>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function provaPresenzeHtml(p) {
+      const list = (p.presenze || []).slice().sort((a, b) => coristaName(a.coristaId).localeCompare(coristaName(b.coristaId)));
+      if (!list.length) return '<p class="muted">Nessuna presenza registrata.</p>';
+
+      return `
+        <ul style="padding-left:1.1rem; margin:.5rem 0;">
+          ${list.map(pz => `
+            <li>
+              ${esc(coristaName(pz.coristaId))}
+              ${pz.presente ? '<span class="badge ok">Presente</span>' : ''}
+              ${pz.scuja && !pz.presente ? '<span class="badge warn">Scusato/a</span>' : ''}
+            </li>
+          `).join('')}
+        </ul>
+      `;
+    }
+
+    function proveHtml() {
+      const items = (state.prove || []).slice().sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')));
+      if (!items.length) return emptyCard('Nessuna prova presente.');
+
+      return `
+        <div class="grid">
+          ${items.map(p => {
+            const presenti = (p.presenze || []).filter(x => x.presente).length;
+            const scusati = (p.presenze || []).filter(x => !x.presente && x.scuja).length;
+
+            return `
+              <article class="card">
+                <h3>${formatDate(p.data)} ${p.ora ? 'alle ' + esc(p.ora) : ''}</h3>
+                <p><strong>${esc(p.luogo || 'Luogo da definire')}</strong></p>
+                <div class="row" style="gap:.5rem;">
+                  <span class="badge ok">${presenti} presenti</span>
+                  ${scusati ? `<span class="badge warn">${scusati} scusati</span>` : ''}
+                </div>
+                <p style="white-space:pre-wrap;">${esc(p.note || '')}</p>
+                ${provaPresenzeHtml(p)}
+              </article>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function adminHtml() {
+      if (!adminAuthed) {
+        return `
+          <div class="card">
+            <h2>Accesso Admin</h2>
+            <p>Password di default: <code>coro123</code>. Dopo l’accesso puoi cambiarla in Impostazioni.</p>
+            <form id="loginForm" class="stack">
+              <label class="field">
+                Password admin
+                <input type="password" id="adminPass" autocomplete="current-password"/>
+              </label>
+              <div><button type="submit" class="btn">Entra</button></div>
+            </form>
+          </div>
+        `;
+      }
+
+      const sections = ['comunicazioni', 'canti', 'salmi', 'scalette', 'coristi', 'prove', 'impostazioni'];
+
+      return `
+        <div class="card">
+          <h2>Pannello Admin</h2>
+          <div class="admin-subtabs">
+            ${sections.map(s => {
+              const label = s === 'impostazioni' ? 'Impostazioni' : ENTITY_CONFIG[s].label;
+              return `<button class="subtab ${currentAdminSection === s ? 'active' : ''}" data-section="${s}">${label}</button>`;
+            }).join('')}
+          </div>
+
+          <div id="adminContent">
+            ${currentAdminSection === 'impostazioni' ? impostazioniHtml() : adminEntityHtml(currentAdminSection)}
+          </div>
+        </div>
+      `;
+    }
+
+    function impostazioniHtml() {
+      return `
+        <h2>Impostazioni</h2>
+        <p class="muted">La password admin viene salvata come hash SHA-256 nel JSON su Google Drive.</p>
+
+        <form id="passwordForm" class="stack">
+          <label class="field">
+            Nuova password admin
+            <input type="text" id="newPass" placeholder="es. coro123"/>
+          </label>
+          <div><button type="submit" class="btn">Aggiorna password</button></div>
+        </form>
+
+        <div class="row" style="margin-top:1rem;">
+          <button id="syncNowBtn" class="btn">Sincronizza ora</button>
+          <button id="notifBtn" class="btn">Attiva notifiche locali</button>
+          <a href="${SYNC_URL}" target="_blank" rel="noopener"><button class="btn">Apri endpoint sync</button></a>
+        </div>
+      `;
+    }
+
+    function getItems(type) {
+      return state[type] || [];
+    }
+
+    function formFieldsHtml(type, item) {
+      const cfg = ENTITY_CONFIG[type];
+      if (!cfg) return '';
+
+      return cfg.fields.map(f => {
+        const val = item ? (item[f.key] ?? '') : '';
+        let inner = '';
+
+        if (f.multiple) {
+          const selected = Array.isArray(val) ? val : [];
+          const items = state[f.collection] || [];
+          const options = items.map(o => `
+            <option value="${esc(o.id)}" ${selected.includes(o.id) ? 'selected' : ''}>${esc(o.titolo || o.nome || o.id)}</option>
+          `).join('');
+
+          inner = `
+            <select name="${f.key}" multiple size="5">
+              ${options || '<option disabled>Nessun elemento disponibile</option>'}
+            </select>
+            <small class="muted">Seleziona più elementi con Ctrl/Cmd.</small>
+          `;
+        } else if (f.type === 'textarea') {
+          inner = `<textarea name="${f.key}" rows="4">${esc(val)}</textarea>`;
+        } else if (f.type === 'select') {
+          const options = (f.options || []).map(o => `<option value="${o}" ${val === o ? 'selected' : ''}>${o}</option>`).join('');
+          inner = `<select name="${f.key}"><option value="">--</option>${options}</select>`;
+        } else {
+          const inputType = f.type === 'url' ? 'text' : (f.type || 'text');
+          inner = `<input type="${inputType}" name="${f.key}" value="${esc(val)}"/>`;
+        }
+
+        return `
+          <label class="field">
+            ${f.label}
+            ${inner}
+          </label>
+        `;
+      }).join('');
+    }
+
+    function listItemHtml(type, item) {
+      const cfg = ENTITY_CONFIG[type];
+      if (!cfg) return '';
+
+      return `
+        <div class="admin-item">
+          <div>
+            <strong>${esc(cfg.title(item))}</strong>
+            ${item.data ? `<span class="muted"> · ${formatDate(item.data)}</span>` : ''}
+            ${type === 'canti' && item.tonalita ? ` <span class="badge">${esc(item.tonalita)}</span>` : ''}
+          </div>
+
+          <div class="actions">
+            <button data-action="edit" data-type="${type}" data-id="${esc(item.id)}">Modifica</button>
+            <button data-action="delete" data-type="${type}" data-id="${esc(item.id)}" class="danger">Elimina</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function adminEntityHtml(type) {
+      const cfg = ENTITY_CONFIG[type];
+      if (!cfg) return '';
+
+      const items = getItems(type).slice().sort(cfg.sort);
+      const editing = adminEditing.type === type ? getItems(type).find(i => i.id === adminEditing.id) : null;
+
+      return `
+        <div class="admin-entity">
+          <h2>${esc(cfg.label)}</h2>
+
+          <form id="entityForm" data-type="${type}" class="stack">
+            ${formFieldsHtml(type, editing)}
+            <div class="row">
+              <button type="submit">${editing ? 'Salva modifiche' : 'Aggiungi'}</button>
+              ${editing ? '<button type="button" id="cancelEdit" class="btn">Annulla</button>' : ''}
+            </div>
+          </form>
+
+          <h3 style="margin-top:1.2rem;">Elenco</h3>
+          <div class="admin-list">
+            ${items.map(item => listItemHtml(type, item)).join('') || '<p class="muted">Nessun elemento.</p>'}
+          </div>
+        </div>
+      `;
+    }
+
+    function collectEntity(type, form) {
+      const cfg = ENTITY_CONFIG[type];
+      const item = {
+        id: adminEditing.type === type ? adminEditing.id : uid(type.slice(0, 3))
+      };
+
+      for (const f of cfg.fields) {
+        const el = form.elements[f.key];
+        if (!el) continue;
+
+        if (f.multiple) {
+          item[f.key] = Array.from(el.selectedOptions).map(o => o.value);
+        } else {
+          item[f.key] = String(el.value || '').trim();
+        }
+      }
+
+      if (type === 'prove') {
+        const present = new Set(item.presenteIds || []);
+        const scusati = new Set(item.scujaIds || []);
+        const ids = Array.from(new Set([...present, ...scusati]));
+
+        item.presenze = ids.map(id => ({
+          coristaId: id,
+          presente: present.has(id),
+          scuja: scusati.has(id)
+        }));
+
+        delete item.presenteIds;
+        delete item.scujaIds;
+      }
+
+      if (type === 'scalette') {
+        item.cantiIds = item.cantiIds || [];
+        item.salmiIds = item.salmiIds || [];
+      }
+
+      return item;
+    }
+
+    async function saveEntity(type, item) {
+      const items = getItems(type);
+      const idx = items.findIndex(i => i.id === item.id);
+
+      if (idx >= 0) items[idx] = item;
+      else items.push(item);
+
+      state[type] = items;
+      adminEditing = { type: null, id: null };
+      saveLocal();
+      renderView();
+
+      try {
+        await pushRemote(state);
+        setStatus('ok', 'Salvato e sincronizzato');
+      } catch (e) {
+        setStatus('warn', 'Salvato localmente, sync fallita: ' + e.message);
+      }
+    }
+
+    async function deleteEntity(type, id) {
+      if (!confirm('Eliminare questo elemento?')) return;
+
+      state[type] = getItems(type).filter(i => i.id !== id);
+      adminEditing = { type: null, id: null };
+      saveLocal();
+      renderView();
+
+      try {
+        await pushRemote(state);
+        setStatus('ok', 'Eliminato e sincronizzato');
+      } catch (e) {
+        setStatus('warn', 'Eliminato localmente, sync fallita: ' + e.message);
+      }
+    }
+
+    async function doLogin(pass) {
+      let ok = false;
+
+      if (state.adminPasswordHash) {
+        try {
+          ok = (await sha256(pass)) === state.adminPasswordHash;
+        } catch (e) {}
+      } else {
+        ok = pass === DEFAULT_ADMIN_PASSWORD || (state.adminPassword && state.adminPassword === pass);
+      }
+
+      if (ok) {
+        adminAuthed = true;
+        sessionStorage.setItem('coro-admin', '1');
+        currentAdminSection = 'comunicazioni';
+        renderView();
+        updateAdminButton();
+        setStatus('ok', 'Accesso admin effettuato');
+      } else {
+        alert('Password errata.');
+      }
+    }
+
+    async function changeAdminPassword(pass) {
+      if (!pass) {
+        alert('Inserisci una nuova password.');
+        return;
+      }
+
+      let hash = '';
+      try {
+        hash = await sha256(pass);
+      } catch (e) {
+        alert('Impossibile generare l’hash in questo browser.');
+        return;
+      }
+
+      state.adminPasswordHash = hash;
+      saveLocal();
+
+      try {
+        await pushRemote(state);
+        setStatus('ok', 'Password aggiornata e sincronizzata');
+      } catch (e) {
+        setStatus('warn', 'Password salvata localmente, sync fallita: ' + e.message);
+      }
+
+      renderView();
+    }
+
+    function bindViewEvents() {
+      if (currentTab !== 'admin') return;
+
+      document.querySelectorAll('.subtab').forEach(b => {
+        b.addEventListener('click', () => {
+          currentAdminSection = b.dataset.section;
+          adminEditing = { type: null, id: null };
+          renderView();
+        });
+      });
+
+      const loginForm = $('#loginForm');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async e => {
+          e.preventDefault();
+          await doLogin($('#adminPass').value);
+        });
+        return;
+      }
+
+      const entityForm = $('#entityForm');
+      if (entityForm) {
+        entityForm.addEventListener('submit', e => {
+          e.preventDefault();
+          const type = entityForm.dataset.type;
+          saveEntity(type, collectEntity(type, entityForm));
+        });
+      }
+
+      const cancelEdit = $('#cancelEdit');
+      if (cancelEdit) {
+        cancelEdit.addEventListener('click', () => {
+          adminEditing = { type: null, id: null };
+          renderView();
+        });
+      }
+
+      document.querySelectorAll('[data-action="edit"]').forEach(b => {
+        b.addEventListener('click', () => {
+          adminEditing = { type: b.dataset.type, id: b.dataset.id };
+          renderView();
+        });
+      });
+
+      document.querySelectorAll('[data-action="delete"]').forEach(b => {
+        b.addEventListener('click', () => deleteEntity(b.dataset.type, b.dataset.id));
+      });
+
+      const passwordForm = $('#passwordForm');
+      if (passwordForm) {
+        passwordForm.addEventListener('submit', async e => {
+          e.preventDefault();
+          await changeAdminPassword($('#newPass').value);
+        });
+      }
+
+      const syncNowBtn = $('#syncNowBtn');
+      if (syncNowBtn) syncNowBtn.addEventListener('click', initialSync);
+
+      const notifBtn = $('#notifBtn');
+      if (notifBtn) notifBtn.addEventListener('click', enableNotifications);
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Service Worker error:', err));
+      });
+    }
+  </script>
+</body>
+</html>
